@@ -1,11 +1,10 @@
 
 import React, { useState,useEffect  } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { MenuBook } from '@mui/icons-material';
@@ -27,24 +26,13 @@ import Menu from '@mui/material/Menu';
 import { deepOrange, deepPurple } from '@mui/material/colors';
 
 
+
 //import ModalDialog from './ModalDialog';
 
-const useStyles = makeStyles(theme => ({
-  menuButton: {
-    marginRight: theme.spacing(2),
-    //flexgrow: 1
-  },
-  title: {
-    flexGrow: 1,
-  },
-  btn_login:{
-    flexGrow: 1,
-    flexDirection:'row-reverse'
-  }
-}));
+
 
 const Navbar = () => {
-  const classes = useStyles();
+  //const classes = useStyles();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -139,8 +127,9 @@ const Navbar = () => {
           edge="start"
           color="inherit"
           aria-label="menu"
-          className={classes.menuButton}
+         
         >
+    
           <MenuBook onClick={toggleDrawer('left', true)} />
           <SwipeableDrawer
             anchor={'left'}
@@ -155,14 +144,14 @@ const Navbar = () => {
           edge="start"
           color="inherit"
           aria-label="menu"
-          className={classes.menuButton}
+          
         >
           <MenuBook/>
          
         </IconButton>)}
 
-        <Typography variant="h6" component="div" className={classes.title} style={{ flexGrow: 1 }} >
-          Money Exchange 
+        <Typography variant="h6" component="div"  style={{ flexGrow: 1 }} >
+        FI Inteligencia Financiera 
         </Typography>
        
 

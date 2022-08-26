@@ -3,52 +3,36 @@ import Head from 'next/head';
 import Link from 'next/link';
 import styles from '../styles/Protected.module.css';
 import { signOut, useSession } from 'next-auth/react'
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
+
 export default function Protected() {
   const {data:session} = useSession();
 
   return (
     <div className={styles.container}>
      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Financial Intelligence</a> 
+     <h1 className={styles.title}>
+        ¡Hola, {session.user.name}
         </h1>
-        {
-          session && (
-            <h1>{session.user.name}</h1>
-          )
-        }
-        
       
+        <h2 className={styles.grid}>
+        TU saldo : 
+        </h2>
+        <p>Valor disponible para solicitar o reinvertir .</p>
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-          <h2>Documentación &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <a href="https://" className={styles.card}>
+          <h2>Mis inversiones &rarr;</h2>  </a>
        
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+          <a href="https://" className={styles.card}>
+            <h2>Mis créditos &rarr;</h2>  </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
+          <a href="https://" className={styles.card}>
+            <h2>Invertir &rarr;</h2> </a>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+          <a href="https://" className={styles.card} >
+            <h2>Solicitar &rarr;</h2>  </a>
         </div>
+        <p>Gana buenos rendimientos prestándole a personas con buen historial crediticio y capacidad de pago comprobada.</p>
       </main>
 
        <footer className={styles.footer}>

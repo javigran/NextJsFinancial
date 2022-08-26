@@ -3,51 +3,55 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import styles from '../styles/Home.module.css'
+import RegisterComponent from '../components/register';
 
 export default function Home() {
 
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Financial Intelligence</a>
-        </h1>
-   
-        <Button style={{backgroundColor:'#0070f3',color:'white'}} variant="contained">Comenzar</Button>
+      <h1 className={styles.title}>
+        Bienvenido a <a href="https://">FI Inteligencia Fianciera</a>
+      </h1>
+        <Button style={{backgroundColor:'#0070f3',color:'white'}} href="#user_register_section" variant="contained">Comenzar</Button>
       
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-          <h2>Documentación &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
+        <a href="https://" className={styles.card}>
+          <h2>Invierte  &rarr;</h2>
+            <p>Encuentre información detallada sobre la forma de Invertir con Nosotrso</p>
           </a>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
+          <a href="https://" className={styles.card}>
+            <h2>Invierte en préstamos de persona a persona &rarr;</h2>
+            <p>Gana buenos rendimientos prestándole a personas con buen historial crediticio y capacidad de pago comprobada.</p>
           </a>
 
           <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
+            href="https://"
             className={styles.card}
           >
-            <h2>Examples &rarr;</h2>
+            <h2>Simula tu préstamo &rarr;</h2>
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
 
           <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            href="https://"
             className={styles.card}
           >
-            <h2>Deploy &rarr;</h2>
+            <h2>¿CÓMO FUNCIONA? &rarr;</h2>
             <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
+            Conectamos directamente a personas que necesitan un préstamo con personas que quieren invertir su dinero.
             </p>
           </a>
-        </div>
+          </div>
       </main>
+      <div id="user_register_section">
 
+
+      <RegisterComponent/>
+      </div>
        <footer className={styles.footer}>
         <a
           href="https://eco2.com.co"
