@@ -2,7 +2,7 @@ import axios from 'axios';
 import { setCookie } from 'nookies'
 
 export default async (req, res) => {
-  const { username, password, email } = req.body;
+  const { username, password, email,Name,type_cedula,no_cedula } = req.body;
 
 
 
@@ -10,6 +10,10 @@ export default async (req, res) => {
     username,
     email,
     password,
+    Name,
+    type_cedula,
+    no_cedula
+    
   })
   .then(response => {
     // Handle success.
