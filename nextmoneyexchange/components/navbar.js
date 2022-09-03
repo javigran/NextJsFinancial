@@ -19,11 +19,10 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
-import { deepOrange, deepPurple } from '@mui/material/colors';
+
 
 
 
@@ -195,7 +194,7 @@ const Navbar = () => {
         
         <Link href="/auth/sign-in" color="inherit">
         <Button color="inherit">
-        Sign In
+        Login
         </Button>
         </Link>
         
