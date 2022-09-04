@@ -57,6 +57,7 @@ export default function Protected() {
 
 export const getServerSideProps = async (context) => {
   const session = await getSession(context);
+  console.log("Retorne session"+ JSON.stringify(session))
   // Check if session exists or not, if not, redirect
   if (session == null) {
     return {

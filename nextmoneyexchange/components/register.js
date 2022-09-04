@@ -27,6 +27,7 @@ const RegisterComponent = () => {
     username: '',
     email: '',
     password: '',
+    nombre:'',
   })
   const [selected, setSelected] = useState(options[0].value);
   const [showPassword,setshowPassword]=useState(false);
@@ -104,27 +105,7 @@ const RegisterComponent = () => {
           onChange={e => handleChange(e)}
           multiline
         />
-        <TextField
-          id="no_cedula"
-          label="No. Cedula:"
-          placeholder="Tu No. de Cedula"
-          name='no_cedula'
-          onChange={e => handleChange(e)}
-          multiline
-          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-        />
-      </div>
-      <div>
-        <TextField
-          id="Name"
-          label="Nombre:"
-          placeholder="Tu nombre"
-          name='Name'
-          onChange={e => handleChange(e)}
-          multiline
-        />
-
-        <TextField
+          <TextField
           id="type_cedula"
           name="type_cedula"
           label="Tipo de Documento:"
@@ -140,6 +121,34 @@ const RegisterComponent = () => {
           ))}
         </TextField>
 
+        <TextField
+          id="no_cedula"
+          label="No. Cedula:"
+          placeholder="Tu No. de Cedula"
+          name='no_cedula'
+          onChange={e => handleChange(e)}
+          multiline
+          inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+        />
+      </div>
+      <div>
+        <TextField
+          id="nombre"
+          label="Nombre:"
+          placeholder="Tu nombre"
+          name='nombre'
+          onChange={e => handleChange(e)}
+          
+        />
+         <TextField
+          id="primer_apellido"
+          label="Apellido:"
+          placeholder="Tu apellido"
+          name='primer_apellido'
+          onChange={e => handleChange(e)}
+          
+        />
+      
         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
           <OutlinedInput

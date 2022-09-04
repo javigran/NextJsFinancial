@@ -181,11 +181,17 @@ const Navbar = () => {
               open={anchorElUser}
               onClose={handleCloseUserMenu}
             >
-              
+           
+               <MenuItem key={'Profile'}>
+                <Link href="/profile">
+                  <Typography textAlign="center" variant="h7" component="div" >Mi Perfil</Typography>
+                  </Link>
+                </MenuItem>
+            
                 <MenuItem key={'Logout'} onClick={signOut}>
                   <Typography textAlign="center" variant="h7" component="div" >Logout</Typography>
                 </MenuItem>
-            
+               
             </Menu>
             </Box>
     </div>
