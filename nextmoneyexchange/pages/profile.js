@@ -8,8 +8,11 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import User_Basic_Info from '../components/user_basic_info';
+import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -56,7 +59,7 @@ function TabPanel(props) {
 const Profile = (props) => {
   const router = useRouter();
   const {data:session} = useSession();
-  const { user: { email, username,nombre, primer_apellido,seg_apellido,no_cedula,type_cedula,fecha_expedition,lugar_expedition,genero,fecha_nacimiento, lugar_nascimiento,telefono,celular,tipo_vivienda} } = props;
+  const { user: { id,email, username,nombre, primer_apellido,seg_apellido,no_cedula,type_cedula,fecha_expedition,lugar_expedition,genero,fecha_nacimiento, lugar_nascimiento,telefono,celular,tipo_vivienda} } = props;
   const [value, setValue] = useState(0);
   const options = [
         { value: '', text: '--Choose an option--' },
@@ -64,8 +67,22 @@ const Profile = (props) => {
         { value: 'CE', text: 'CE' },
         { value: 'TI', text: 'TI' },
       ];
-  
+      const optionsG = [
+        { value: '', text: '--Escoge una opción--' },
+        { value: 'M', text: 'M' },
+        { value: 'F', text: 'F' },
+      ];
+      const optionsV = [
+        { value: '', text: '--Escoge una opción--' },
+        { value: 'Arrendada', text: 'Arrendada' },
+        { value: 'Familiar', text: 'Familiar' },
+        { value: 'Propia sin Hipoteca', text: 'Propia sin Hipoteca' },
+        { value: 'Propia con Hipoteca', text: 'Propia con Hipoteca' },
+      ];
+      var selecG= optionsG.find(opt => opt.value===genero);
+      const [selectedG, setSelectedG] = useState(selecG.value);
       const [userData, setUserData] = useState({
+        id:id,
         username: username,
         email: email,
         //password: password,
@@ -82,12 +99,19 @@ const Profile = (props) => {
         telefono:telefono,
         celular:celular,
         tipo_vivienda:tipo_vivienda,
+       
       })
 
      // console.log("Username" + .username);
-     var selec= options.find(opt => opt.value===type_cedula);
+    //  try {
+    //  var selec= options.find(opt => opt.value===type_cedula);
+    //  console.log(selec);
+    //  } catch (ex) {
+    //   console.log("Aui");
+    //    selec = options[0];
+    //  }
     // console.log(selec);
-      const [selected, setSelected] = useState(selec.value);
+      const [selected, setSelected] = useState(options[0].value);
       const [showPassword,setshowPassword]=useState(false);
       const handleClickShowPassword = () => {
         setshowPassword(!showPassword);
@@ -99,15 +123,53 @@ const Profile = (props) => {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
       }
-      const handleChangeSelect = (e) => {
+      const handleData = (e) => {
+     
+        var dataok  = e.toISOString().split('T')[0];
+        console.log(dataok);
+        setUserData({ ...userData, fecha_expedition: dataok,});
+      }  
+      const handleDataNacimento = (e) => {
+     
+        var dataok  = e.toISOString().split('T')[0];
+        console.log(dataok);
+        setUserData({ ...userData, fecha_nacimiento: dataok,});
+      }  
+      const handleChangeSelectG = (e) => {
         //console.log("cambie"+ e.target.name + "value"+ e.target.value);
         const { name, value } = e.target;
-        setSelected(value);
-        setUserData({ ...userData, [name]: selected });
+        setUserData({ ...userData, [name]: value });
+      }
+      const handleChangeSelectV = (e) => {
+        //console.log("cambie"+ e.target.name + "value"+ e.target.value);
+        const { name, value } = e.target;
+        setUserData({ ...userData, [name]: value });
+      }
+      const handleChangeSelect = (e) => {
+        console.log("cambie"+ e.target.name + "value"+ e.target.value);
+        const { name, value } = e.target;
+        //setSelected(value);
+        setUserData({ ...userData, [name]: value });
       }
   const handleChange2 = (event, newValue) => {
     setValue(newValue);
   };
+
+  const handleSubmitUpdate = async (e) => {
+    e.preventDefault();
+    
+    await axios.post('/api/updateuser', userData).then(response => {
+      if (response.status == 200) {
+        alert(response.statusText + "- Usuario Actualizado Satisfactoriamente.");
+    
+      }
+
+    }).catch(e => {
+      alert("Exception 2" + e);
+    });
+    console.log(userData);
+  }
+  
 
   const logout = async () => {
     try {
@@ -165,7 +227,7 @@ const Profile = (props) => {
           id="type_cedula"
           name="type_cedula"
           label="Tipo de Documento:"
-          value={selected}
+          value={userData.type_cedula}
           onChange={e => handleChangeSelect(e)}
           helperText="Cual es el Tuyo"
           variant="filled"
@@ -188,16 +250,20 @@ const Profile = (props) => {
           variant="filled"
           inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
         />
-        <TextField
-          id="fecha_expedition"
-          label="Fecha Expedición:"
-          placeholder="fecha expedición"
-          name='fecha_expedition'
-          value={userData.fecha_expedition}
-          onChange={e => handleChange(e)}
-          variant="filled"
-          
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+      id="fecha_expedition"  
+      name='fecha_expedition'  
+        label="Fecha Expedición"
+        placeholder="fecha expedición"  
+        value={userData.fecha_expedition}  
+        onChange={(newValue) => {
+          handleData(newValue);
+        }}
+        
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </LocalizationProvider>
        
        </div>
        <div>
@@ -230,16 +296,24 @@ const Profile = (props) => {
           value={userData.seg_apellido}
           variant="filled"
         />
-         <TextField
+        <TextField
           id="genero"
+          name="genero"
           label="Genero:"
-          placeholder="Tu Genero"
-          name='genero'
-          onChange={e => handleChange(e)}
-          value={userData.seg_apellido}
+          value={userData.genero}
+          onChange={e => handleChangeSelectG(e)}
+          helperText="Tu Genero"
           variant="filled"
-        />
-             <TextField
+          select
+        >
+          {optionsG.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.text}
+            </MenuItem>
+          ))}
+        </TextField>  
+            
+          <TextField
           id="lugar_expedition"
           label="Lugar Expedición Documento :"
           placeholder="Luga de Expedición"
@@ -248,6 +322,66 @@ const Profile = (props) => {
           value={userData.lugar_expedition}
           variant="filled"
         />
+       </div>
+       <div>
+       <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+      id="fecha_nacimiento"  
+      name='fecha_nacimiento'  
+        label="Fecha Nascimiento"
+        placeholder="fecha nascimiento"  
+        value={userData.fecha_nacimiento}  
+        onChange={(newValue) => {
+          handleDataNacimento(newValue);
+        }}
+        
+        renderInput={(params) => <TextField {...params} />}
+      />
+    </LocalizationProvider>
+       
+       <TextField
+          id="lugar_nascimento"
+          label="Lugar de Nascimento  :"
+          placeholder="Luga de Nascimento"
+          name='lugar_nascimento'
+          onChange={e => handleChange(e)}
+          value={userData.lugar_nascimento}
+          variant="filled"
+        /> 
+        <TextField
+          id="telefono"
+          label="Telefono :"
+          placeholder="Telefono"
+          name='telefono'
+          onChange={e => handleChange(e)}
+          value={userData.telefono}
+          variant="filled"
+        />
+         <TextField
+          id="celular"
+          label="Celular :"
+          placeholder="Celular"
+          name='celular'
+          onChange={e => handleChange(e)}
+          value={userData.celular}
+          variant="filled"
+        />
+        <TextField
+   id="tipo_vivienda"
+   name="tipo_vivienda"
+   label="Tipo Vivienda:"
+   value={userData.tipo_vivienda}
+   onChange={e => handleChangeSelectV(e)}
+   helperText="Tu tipo vivienda"
+   variant="filled"
+   select
+ >
+   {optionsV.map((option) => (
+     <MenuItem key={option.value} value={option.value}>
+       {option.text}
+     </MenuItem>
+   ))}
+ </TextField>
        </div>
       </Box>
       </TabPanel>
@@ -263,7 +397,12 @@ const Profile = (props) => {
       <TabPanel value={value} index={4}>
         Item Five
       </TabPanel>
+
+      <div style={{textAlign:'center'}}> 
+      <Button variant="outlined" onClick={handleSubmitUpdate}>Guardar Cambios</Button>
+      </div>
     </Box>
+    
   )
 }
 

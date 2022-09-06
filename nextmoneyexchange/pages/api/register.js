@@ -13,7 +13,8 @@ export default async (req, res) => {
     nombre,
     primer_apellido,
     type_cedula,
-    no_cedula
+    no_cedula,
+    type_cedula
     
   })
   .then(response => {
