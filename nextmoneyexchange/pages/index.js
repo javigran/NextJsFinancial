@@ -6,9 +6,11 @@ import { useEffect } from 'react'
 import Button from '@mui/material/Button';
 import styles from '../styles/Home.module.css'
 import RegisterComponent from '../components/register';
+import { signOut, useSession } from 'next-auth/react'
 
 export default function Home() {
-
+  const {data:session} = useSession();
+  
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -50,7 +52,9 @@ export default function Home() {
       <div id="user_register_section">
 
 
-      <RegisterComponent/>
+      {
+        !session && <RegisterComponent/>
+      }
       </div>
        <footer className={styles.footer}>
         <a
