@@ -61,7 +61,7 @@ function a11yProps(index) {
 const Profile = (props) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { user: { id, email, username, nombre, primer_apellido, seg_apellido, no_cedula, type_cedula, fecha_expedition, lugar_expedition, genero, fecha_nacimiento, lugar_nascimiento, telefono, celular, tipo_vivienda } } = props;
+  const { user: { id, email, username, nombre, primer_apellido, seg_apellido, no_cedula, type_cedula, fecha_expedition, lugar_expedition, genero, fecha_nacimiento, lugar_nascimiento, telefono, celular, tipo_vivienda,actividad_economica } } = props;
   const [value, setValue] = useState(0);
   const options = [
     { value: '', text: '--Choose an option--' },
@@ -82,6 +82,7 @@ const Profile = (props) => {
     { value: 'Propia con Hipoteca', text: 'Propia con Hipoteca' },
   ];
   var selecG = optionsG.find(opt => opt.value === genero);
+  const [isActividadEco, setisActividadEco] = useState(false);
   const [selectedG, setSelectedG] = useState(selecG.value);
   const [userData, setUserData] = useState({
     id: id,
@@ -101,14 +102,47 @@ const Profile = (props) => {
     telefono: telefono,
     celular: celular,
     tipo_vivienda: tipo_vivienda,
-
+    actividad_economica:actividad_economica,
   })
 
+  var id_actividad=null;
+  var actividad_principal,nombre_empresa,actividad_empresa,direccion_empresa,nit,telefono_empresa,ciudad_empresa,cargo_empresa,fecha_ingreso_emp,tipo_contrato,porcentaje_participacion,participacion_emp='';
+ 
+
+
+if(actividad_economica !=null){
+  console.log("asigne actividad " + JSON.stringify(actividad_economica));
+     id_actividad = actividad_economica.id;
+     actividad_principal=actividad_economica.actividad_principal;
+     nombre_empresa=actividad_economica.nombre_empresa;
+     actividad_empresa=actividad_economica.actividad_empresa;
+     direccion_empresa=actividad_economica.direccion_empresa;
+     nit=actividad_economica.nit;
+     telefono_empresa=actividad_economica.telefono_empresa;
+     ciudad_empresa=actividad_economica.ciudad_empresa;
+     cargo_empresa=actividad_economica.cargo_empresa;
+     fecha_ingreso_emp=actividad_economica.fecha_ingreso_emp;
+     tipo_contrato=actividad_economica.tipo_contrato;
+     porcentaje_participacion=actividad_economica.porcentaje_participacion;
+     participacion_emp=actividad_economica.participacion_emp;
+     console.log("Id actividad" + id_actividad);
+}
+
 const [ActividadEconomica, setActividadEconomica] = useState({
+  id:id_actividad,
   user:id,
-  actividad_principal:'',
-  nombre_empresa:'',
-  participacion_emp:false,
+  actividad_principal:actividad_principal,
+  nombre_empresa:nombre_empresa,
+  actividad_empresa:actividad_empresa,
+  direccion_empresa:direccion_empresa,
+  nit:nit,
+  telefono_empresa:telefono_empresa,
+  ciudad_empresa:ciudad_empresa,
+  cargo_empresa:cargo_empresa,
+  fecha_ingreso_emp:fecha_ingreso_emp,
+  tipo_contrato:tipo_contrato,
+  porcentaje_participacion:porcentaje_participacion,
+  participacion_emp:participacion_emp,
 })
   
 
@@ -135,11 +169,22 @@ const [ActividadEconomica, setActividadEconomica] = useState({
     const { name, value } = e.target;
     setUserData({ ...userData, [name]: value });
   }
+  const handleChangeActividadEco = (e) => {
+    const { name, value } = e.target;
+    setisActividadEco(true);
+    setActividadEconomica({ ...ActividadEconomica, [name]: value });
+  }
   const handleData = (e) => {
 
     var dataok = e.toISOString().split('T')[0];
     console.log(dataok);
     setUserData({ ...userData, fecha_expedition: dataok, });
+  }
+  const handleDataActividadEco = (e) => {
+
+    var dataok = e.toISOString().split('T')[0];
+    console.log(dataok);
+    setActividadEconomica({...ActividadEconomica, fecha_ingreso_emp:dataok});
   }
   const handleDataNacimento = (e) => {
 
@@ -174,11 +219,21 @@ const [ActividadEconomica, setActividadEconomica] = useState({
       if (response.status == 200) {
         alert(response.statusText + "- Usuario Actualizado Satisfactoriamente.");
 
+       axios.post('/api/actividad_economica', ActividadEconomica). then(response2 => {
+            console.log("Response2" + JSON.stringify(response2))
+        if (response2.status == 200) {
+          alert(response.statusText + "- Actividad Economica Actualizado Satisfactoriamente.");
+          }
+       });
+      
+
       }
 
-    }).catch(e => {
+    })
+    .catch(e => {
       alert("Exception 2" + e);
     });
+
     console.log(userData);
   }
 
@@ -413,7 +468,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="actividad principal"
               name='actividad_principal'
               value={ActividadEconomica.actividad_principal}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -423,7 +478,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="nombre empresa"
               name='nombre_empresa'
               value={ActividadEconomica.nombre_empresa}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -433,7 +488,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="actividad empresa"
               name='actividad_empresa'
               value={ActividadEconomica.actividad_empresa}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -443,7 +498,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="dirección empresa"
               name='direccion_empresa'
               value={ActividadEconomica.direccion_empresa}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -453,7 +508,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="nit"
               name='nit'
               value={ActividadEconomica.nit}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -466,7 +521,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="telefono empresa"
               name='telefono_empresa'
               value={ActividadEconomica.telefono_empresa}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -477,7 +532,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="ciudad empresa"
               name='ciudad_empresa'
               value={ActividadEconomica.ciudad_empresa}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -487,7 +542,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="cargo empresa"
               name='cargo_empresa'
               value={ActividadEconomica.cargo_empresa}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -498,9 +553,9 @@ const [ActividadEconomica, setActividadEconomica] = useState({
                 name='fecha_ingreso_emp'
                 label="Fecha Ingreso"
                 placeholder="fecha ingreso"
-                value={userData.fecha_ingreso_emp}
+                value={ActividadEconomica.fecha_ingreso_emp}
                 onChange={(newValue) => {
-                  handleData(newValue);
+                  handleDataActividadEco(newValue);
                 }}
 
                 renderInput={(params) => <TextField {...params} />}
@@ -513,7 +568,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               placeholder="tipo contrato"
               name='tipo_contrato'
               value={ActividadEconomica.tipo_contrato}
-              onChange={e => handleChange(e)}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -528,8 +583,8 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               label="% Participación :"
               placeholder="% participación"
               name='porcentaje_participacion'
-              value={ActividadEconomica.porcentaje_particsipacion}
-              onChange={e => handleChange(e)}
+              value={ActividadEconomica.porcentaje_participacion}
+              onChange={e => handleChangeActividadEco(e)}
               variant="filled"
 
             />
@@ -566,7 +621,7 @@ export const getServerSideProps = async (ctx) => {
   if (session?.jwt) {
     try {
       // console.log("Entre aqui " + strapiToken);
-      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id, {
+      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id +'?populate[0]=actividad_economica', {
         headers: {
           Authorization:
             `Bearer ${strapiToken}`,
