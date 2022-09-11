@@ -61,8 +61,9 @@ function a11yProps(index) {
 const Profile = (props) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { user: { id, email, username, nombre, primer_apellido, seg_apellido, no_cedula, type_cedula, fecha_expedition, lugar_expedition, genero, fecha_nacimiento, lugar_nascimiento, telefono, celular, tipo_vivienda,actividad_economica } } = props;
+  const { user: { id, email, username, nombre, primer_apellido, seg_apellido, no_cedula, type_cedula, fecha_expedition, lugar_expedition, genero, fecha_nacimiento, lugar_nascimiento, telefono, celular, tipo_vivienda, actividad_economica } } = props;
   const [value, setValue] = useState(0);
+  const [disable, setDisable] = useState(true);
   const options = [
     { value: '', text: '--Choose an option--' },
     { value: 'CC', text: 'CC' },
@@ -83,7 +84,7 @@ const Profile = (props) => {
   ];
   var selecG = optionsG.find(opt => opt.value === genero);
   const [isActividadEco, setisActividadEco] = useState(false);
-  const [selectedG, setSelectedG] = useState(selecG.value);
+ // const [selectedG, setSelectedG] = useState(selecG.value);
   const [userData, setUserData] = useState({
     id: id,
     username: username,
@@ -102,50 +103,35 @@ const Profile = (props) => {
     telefono: telefono,
     celular: celular,
     tipo_vivienda: tipo_vivienda,
-    actividad_economica:actividad_economica,
+    actividad_economica: actividad_economica,
   })
 
-  var id_actividad=null;
-  var actividad_principal,nombre_empresa,actividad_empresa,direccion_empresa,nit,telefono_empresa,ciudad_empresa,cargo_empresa,fecha_ingreso_emp,tipo_contrato,porcentaje_participacion,participacion_emp='';
- 
-
-
-if(actividad_economica !=null){
-  console.log("asigne actividad " + JSON.stringify(actividad_economica));
-     id_actividad = actividad_economica.id;
-     actividad_principal=actividad_economica.actividad_principal;
-     nombre_empresa=actividad_economica.nombre_empresa;
-     actividad_empresa=actividad_economica.actividad_empresa;
-     direccion_empresa=actividad_economica.direccion_empresa;
-     nit=actividad_economica.nit;
-     telefono_empresa=actividad_economica.telefono_empresa;
-     ciudad_empresa=actividad_economica.ciudad_empresa;
-     cargo_empresa=actividad_economica.cargo_empresa;
-     fecha_ingreso_emp=actividad_economica.fecha_ingreso_emp;
-     tipo_contrato=actividad_economica.tipo_contrato;
-     porcentaje_participacion=actividad_economica.porcentaje_participacion;
-     participacion_emp=actividad_economica.participacion_emp;
-     console.log("Id actividad" + id_actividad);
-}
-
-const [ActividadEconomica, setActividadEconomica] = useState({
-  id:id_actividad,
-  user:id,
-  actividad_principal:actividad_principal,
-  nombre_empresa:nombre_empresa,
-  actividad_empresa:actividad_empresa,
-  direccion_empresa:direccion_empresa,
-  nit:nit,
-  telefono_empresa:telefono_empresa,
-  ciudad_empresa:ciudad_empresa,
-  cargo_empresa:cargo_empresa,
-  fecha_ingreso_emp:fecha_ingreso_emp,
-  tipo_contrato:tipo_contrato,
-  porcentaje_participacion:porcentaje_participacion,
-  participacion_emp:participacion_emp,
-})
+  var id_actividad = null;
+  var actividad_principal, nombre_empresa, actividad_empresa, direccion_empresa, nit, telefono_empresa, ciudad_empresa, cargo_empresa, fecha_ingreso_emp, tipo_contrato, porcentaje_participacion, participacion_emp = '';
   
 
+
+  if (actividad_economica != null) {
+    //console.log("asigne actividad " + JSON.stringify(actividad_economica));
+    id_actividad = actividad_economica.id;
+    actividad_principal = actividad_economica.actividad_principal;
+    nombre_empresa = actividad_economica.nombre_empresa;
+    actividad_empresa = actividad_economica.actividad_empresa;
+    direccion_empresa = actividad_economica.direccion_empresa;
+    nit = actividad_economica.nit;
+    telefono_empresa = actividad_economica.telefono_empresa;
+    ciudad_empresa = actividad_economica.ciudad_empresa;
+    cargo_empresa = actividad_economica.cargo_empresa;
+    fecha_ingreso_emp = actividad_economica.fecha_ingreso_emp;
+    tipo_contrato = actividad_economica.tipo_contrato;
+    porcentaje_participacion = actividad_economica.porcentaje_participacion;
+    participacion_emp = actividad_economica.participacion_emp;
+  //  console.log("Id actividad" + id_actividad);
+  }
+
+
+
+  
 
 
   // console.log("Username" + .username);
@@ -172,7 +158,11 @@ const [ActividadEconomica, setActividadEconomica] = useState({
   const handleChangeActividadEco = (e) => {
     const { name, value } = e.target;
     setisActividadEco(true);
-    setActividadEconomica({ ...ActividadEconomica, [name]: value });
+    console.log(e.target.value);
+   // setActividatToUpdate({...ActividadToUpdate,[name]:value});4
+   //setActividadEconomica({ ...ActividadEconomica,  });
+    setUserData({...userData,['actividad_economica']:{...userData.actividad_economica,[name]:e.target.value}});
+    console.log("Userdata : " + JSON.stringify(userData));
   }
   const handleData = (e) => {
 
@@ -184,7 +174,11 @@ const [ActividadEconomica, setActividadEconomica] = useState({
 
     var dataok = e.toISOString().split('T')[0];
     console.log(dataok);
-    setActividadEconomica({...ActividadEconomica, fecha_ingreso_emp:dataok});
+    setisActividadEco(true);
+   // setActividadToUpdate({...ActividadToUpdate, fecha_ingreso_emp: dataok});
+   setUserData({...userData,['actividad_economica']:{...userData.actividad_economica,fecha_ingreso_emp:dataok}});
+
+   
   }
   const handleDataNacimento = (e) => {
 
@@ -211,6 +205,9 @@ const [ActividadEconomica, setActividadEconomica] = useState({
   const handleChange2 = (event, newValue) => {
     setValue(newValue);
   };
+  const handleEnable = (e) => {
+    setDisable(!disable);
+  }
 
   const handleSubmitUpdate = async (e) => {
     e.preventDefault();
@@ -218,21 +215,38 @@ const [ActividadEconomica, setActividadEconomica] = useState({
     await axios.post('/api/updateuser', userData).then(response => {
       if (response.status == 200) {
         alert(response.statusText + "- Usuario Actualizado Satisfactoriamente.");
-
-       axios.post('/api/actividad_economica', ActividadEconomica). then(response2 => {
+    
+        if(isActividadEco && userData.actividad_economica.id == null){
+          console.log(userData);
+           //setUserData({...userData,['actividad_economica']:{...userData.actividad_economica,user:userData.id}});
+          axios.post('/api/actividad_economica', userData).then(response2 => {
             console.log("Response2" + JSON.stringify(response2))
-        if (response2.status == 200) {
-          alert(response.statusText + "- Actividad Economica Actualizado Satisfactoriamente.");
-          }
-       });
-      
+            if (response2.status == 200) {
+              alert(response.statusText + "- Actividad Economica Creada Satisfactoriamente.");
+              setisActividadEco(false);
+            }
+          });
+        }
+        else if(isActividadEco && userData.actividad_economica != null){
 
+          //console.log("Actividad to Update :" + userData); 
+          axios.post('/api/actividad_update',userData.actividad_economica).then(response2 => {
+            console.log("Response2" + JSON.stringify(response2))
+            if (response2.status == 200) {
+
+              alert(response2.statusText + "- Actividad Economica Actualizado Satisfactoriamente.");
+              setisActividadEco(false);
+            }
+          });
+        }
+        setDisable(true);
+        
       }
 
     })
-    .catch(e => {
-      alert("Exception 2" + e);
-    });
+      .catch(e => {
+        alert("Exception 2" + e);
+      });
 
     console.log(userData);
   }
@@ -278,6 +292,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               value={userData.username}
               onChange={e => handleChange(e)}
               variant="filled"
+              disabled={disable}
 
             />
             <TextField
@@ -288,6 +303,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               value={userData.email}
               onChange={e => handleChange(e)}
               variant="filled"
+              disabled={disable}
 
             />
             <TextField
@@ -299,6 +315,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               helperText="Cual es el Tuyo"
               variant="filled"
               select
+              disabled={disable}
             >
               {options.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
@@ -315,6 +332,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               onChange={e => handleChange(e)}
               value={userData.no_cedula}
               variant="filled"
+              disabled={disable}
               inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -327,7 +345,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
                 onChange={(newValue) => {
                   handleData(newValue);
                 }}
-
+                disabled={disable}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
@@ -343,6 +361,8 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               onChange={e => handleChange(e)}
               value={userData.nombre}
               variant="filled"
+              disabled={disable}
+
             />
 
             <TextField
@@ -353,6 +373,8 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               onChange={e => handleChange(e)}
               value={userData.primer_apellido}
               variant="filled"
+              disabled={disable}
+
             />
             <TextField
               id="seg_apellido"
@@ -362,6 +384,8 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               onChange={e => handleChange(e)}
               value={userData.seg_apellido}
               variant="filled"
+              disabled={disable}
+
             />
             <TextField
               id="genero"
@@ -371,6 +395,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               onChange={e => handleChangeSelectG(e)}
               helperText="Tu Genero"
               variant="filled"
+              disabled={disable}
               select
             >
               {optionsG.map((option) => (
@@ -387,6 +412,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               name='lugar_expedition'
               onChange={e => handleChange(e)}
               value={userData.lugar_expedition}
+              disabled={disable}
               variant="filled"
             />
           </div>
@@ -401,7 +427,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
                 onChange={(newValue) => {
                   handleDataNacimento(newValue);
                 }}
-
+                disabled={disable}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
@@ -413,6 +439,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               name='lugar_nascimento'
               onChange={e => handleChange(e)}
               value={userData.lugar_nascimento}
+              disabled={disable}
               variant="filled"
             />
             <TextField
@@ -422,6 +449,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               name='telefono'
               onChange={e => handleChange(e)}
               value={userData.telefono}
+              disabled={disable}
               variant="filled"
             />
             <TextField
@@ -431,6 +459,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               name='celular'
               onChange={e => handleChange(e)}
               value={userData.celular}
+              disabled={disable}
               variant="filled"
             />
             <TextField
@@ -441,6 +470,7 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               onChange={e => handleChangeSelectV(e)}
               helperText="Tu tipo vivienda"
               variant="filled"
+              disabled={disable}
               select
             >
               {optionsV.map((option) => (
@@ -453,111 +483,114 @@ const [ActividadEconomica, setActividadEconomica] = useState({
         </Box>
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <Box
+        <Box
           component="div"
           sx={{
             '& .MuiTextField-root': { m: 1, width: '25ch' },
           }}
           noValidate
           autoComplete="off">
-      <div>
+          <div>
 
             <TextField
               id="actividad_principal"
               label="Actividad Principal :"
               placeholder="actividad principal"
               name='actividad_principal'
-              value={ActividadEconomica.actividad_principal}
+              value={userData.actividad_economica ? userData.actividad_economica.actividad_principal :''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
+              disabled={disable}
 
             />
-              <TextField
+            <TextField
               id="nombre_empresa"
               label="Nombre Empresa :"
               placeholder="nombre empresa"
               name='nombre_empresa'
-              value={ActividadEconomica.nombre_empresa}
+              value={userData.actividad_economica ? userData.actividad_economica.nombre_empresa:''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
+              disabled={disable}
 
             />
-                  <TextField
+            <TextField
               id="actividad_empresa"
               label="Actividad Empresa :"
               placeholder="actividad empresa"
               name='actividad_empresa'
-              value={ActividadEconomica.actividad_empresa}
+              value={userData.actividad_economica ? userData.actividad_economica.actividad_empresa:''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
-
+              disabled={disable}
             />
-             <TextField
+            <TextField
               id="direccion_empresa"
               label="Dirección Empresa :"
               placeholder="dirección empresa"
               name='direccion_empresa'
-              value={ActividadEconomica.direccion_empresa}
+              value={userData.actividad_economica ? userData.actividad_economica.direccion_empresa:''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
+              disabled={disable}
 
             />
-             <TextField
+            <TextField
               id="nit"
               label="Nit :"
               placeholder="nit"
               name='nit'
-              value={ActividadEconomica.nit}
+              value={userData.actividad_economica ?userData.actividad_economica.nit:''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
-
+              disabled={disable}
             />
-            
-      </div>
-<div>
-<TextField
+
+          </div>
+          <div>
+            <TextField
               id="telefono_empresa"
               label="Telefono Empresa :"
               placeholder="telefono empresa"
               name='telefono_empresa'
-              value={ActividadEconomica.telefono_empresa}
+              value={userData.actividad_economica ? userData.actividad_economica.telefono_empresa:''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
-
+              disabled={disable}
             />
 
-<TextField
+            <TextField
               id="ciudad_empresa"
               label="Ciudad Empresa :"
               placeholder="ciudad empresa"
               name='ciudad_empresa'
-              value={ActividadEconomica.ciudad_empresa}
+              value={userData.actividad_economica ? userData.actividad_economica.ciudad_empresa:''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
-
+              disabled={disable}
             />
             <TextField
               id="cargo_empresa"
               label="Cargo Empresa :"
               placeholder="cargo empresa"
               name='cargo_empresa'
-              value={ActividadEconomica.cargo_empresa}
+              value={userData.actividad_economica ? userData.actividad_economica.cargo_empresa:''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
-
+              disabled={disable}
             />
 
-<LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 id="fecha_ingreso_emp"
                 name='fecha_ingreso_emp'
                 label="Fecha Ingreso"
                 placeholder="fecha ingreso"
-                value={ActividadEconomica.fecha_ingreso_emp}
+                value={userData.actividad_economica ? userData.actividad_economica.fecha_ingreso_emp :''}
                 onChange={(newValue) => {
                   handleDataActividadEco(newValue);
                 }}
-
+                disabled={disable}
                 renderInput={(params) => <TextField {...params} />}
               />
             </LocalizationProvider>
@@ -567,31 +600,31 @@ const [ActividadEconomica, setActividadEconomica] = useState({
               label="Top Contrato :"
               placeholder="tipo contrato"
               name='tipo_contrato'
-              value={ActividadEconomica.tipo_contrato}
+              value={userData.actividad_economica ? userData.actividad_economica.tipo_contrato :''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
-
+              disabled={disable}
             />
-            
-</div>
-<div>
 
-<FormControlLabel control={<Checkbox checked={ActividadEconomica.participacion_emp} />} label="Participación Empresa" />
+          </div>
+          <div>
 
-<TextField
+             <FormControlLabel control={<Checkbox disabled={disable} checked={userData.actividad_economica ? userData.actividad_economica.participacion_emp : false}></Checkbox>} label="Participación Empresa" />
+
+            <TextField
               id="porcentaje_participacion"
               label="% Participación :"
               placeholder="% participación"
               name='porcentaje_participacion'
-              value={ActividadEconomica.porcentaje_participacion}
+              value={userData.actividad_economica ? userData.actividad_economica.porcentaje_participacion :''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
-
+              disabled={disable}
             />
-</div>
+          </div>
 
 
-      </Box>
+        </Box>
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
@@ -604,7 +637,10 @@ const [ActividadEconomica, setActividadEconomica] = useState({
       </TabPanel>
 
       <div style={{ textAlign: 'center' }}>
-        <Button variant="outlined" onClick={handleSubmitUpdate}>Guardar Cambios</Button>
+
+        <Button variant="outlined" onClick={handleEnable}>{disable ? 'Actualizar' : 'Bloquear Campos'}</Button>
+        <Button variant="outlined" disabled={disable} onClick={handleSubmitUpdate}>Guardar Cambios</Button>
+
       </div>
     </Box>
 
@@ -621,7 +657,7 @@ export const getServerSideProps = async (ctx) => {
   if (session?.jwt) {
     try {
       // console.log("Entre aqui " + strapiToken);
-      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id +'?populate[0]=actividad_economica', {
+      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id + '?populate[0]=actividad_economica', {
         headers: {
           Authorization:
             `Bearer ${strapiToken}`,

@@ -4,9 +4,9 @@ import { setCookie } from 'nookies'
 export default async (req, res) => {
   const { username, password, email,nombre,primer_apellido,type_cedula,no_cedula } = req.body;
 
+  const strapiUrl = process.env.STRAPI_URL;
 
-
-    axios.post('http://localhost:1337/api/auth/local/register', {
+    axios.post(`${strapiUrl}/api/auth/local/register`, {
     username,
     email,
     password,
