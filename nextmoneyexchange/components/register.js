@@ -26,6 +26,8 @@ const RegisterComponent = () => {
     email: '',
     password: '',
     nombre:'',
+    type_cedula:'',
+    no_cedula:''
   })
   const [selected, setSelected] = useState(options[0].value);
   const [showPassword,setshowPassword]=useState(false);
@@ -72,8 +74,8 @@ const RegisterComponent = () => {
   const handleChangeSelect = (e) => {
     //console.log("cambie"+ e.target.name + "value"+ e.target.value);
     const { name, value } = e.target;
-    setSelected(value);
-    setUserData({ ...userData, [name]: selected });
+   // setSelected(value);
+    setUserData({ ...userData, [name]: value });
   }
 
   return (

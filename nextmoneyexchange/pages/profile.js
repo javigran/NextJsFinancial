@@ -15,14 +15,28 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
+import MaterialTable from 'material-table'
+import { forwardRef } from 'react';
+// ICONS 
+import AddBox from '@material-ui/icons/AddBox';
+import ArrowDownward from '@material-ui/icons/ArrowDownward';
+import Check from '@material-ui/icons/Check';
+import ChevronLeft from '@material-ui/icons/ChevronLeft';
+import ChevronRight from '@material-ui/icons/ChevronRight';
+import Clear from '@material-ui/icons/Clear';
+import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Edit from '@material-ui/icons/Edit';
+import FilterList from '@material-ui/icons/FilterList';
+import FirstPage from '@material-ui/icons/FirstPage';
+import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
+import SaveAlt from '@material-ui/icons/SaveAlt';
+import Search from '@material-ui/icons/Search';
+
+import ViewColumn from '@material-ui/icons/ViewColumn';
+import { Save } from '@material-ui/icons';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,7 +75,7 @@ function a11yProps(index) {
 const Profile = (props) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { user: { id, email, username, nombre, primer_apellido, seg_apellido, no_cedula, type_cedula, fecha_expedition, lugar_expedition, genero, fecha_nacimiento, lugar_nascimiento, telefono, celular, tipo_vivienda, actividad_economica } } = props;
+  const { user: { id, email, username, nombre, primer_apellido, seg_apellido, no_cedula, type_cedula, fecha_expedition, lugar_expedition, genero, fecha_nacimiento, lugar_nascimiento, telefono, celular, tipo_vivienda, actividad_economica, referencias } } = props;
   const [value, setValue] = useState(0);
   const [disable, setDisable] = useState(true);
   const options = [
@@ -82,9 +96,29 @@ const Profile = (props) => {
     { value: 'Propia sin Hipoteca', text: 'Propia sin Hipoteca' },
     { value: 'Propia con Hipoteca', text: 'Propia con Hipoteca' },
   ];
+  const tableIcons = {
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    Save: forwardRef((props,ref) => <Save {...props} ref={ref}/>),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  };
   var selecG = optionsG.find(opt => opt.value === genero);
   const [isActividadEco, setisActividadEco] = useState(false);
- // const [selectedG, setSelectedG] = useState(selecG.value);
+  // const [selectedG, setSelectedG] = useState(selecG.value);
   const [userData, setUserData] = useState({
     id: id,
     username: username,
@@ -104,11 +138,12 @@ const Profile = (props) => {
     celular: celular,
     tipo_vivienda: tipo_vivienda,
     actividad_economica: actividad_economica,
+    referencias: referencias
   })
 
   var id_actividad = null;
   var actividad_principal, nombre_empresa, actividad_empresa, direccion_empresa, nit, telefono_empresa, ciudad_empresa, cargo_empresa, fecha_ingreso_emp, tipo_contrato, porcentaje_participacion, participacion_emp = '';
-  
+
 
 
   if (actividad_economica != null) {
@@ -126,23 +161,9 @@ const Profile = (props) => {
     tipo_contrato = actividad_economica.tipo_contrato;
     porcentaje_participacion = actividad_economica.porcentaje_participacion;
     participacion_emp = actividad_economica.participacion_emp;
-  //  console.log("Id actividad" + id_actividad);
+    //  console.log("Id actividad" + id_actividad);
   }
-
-
-
-  
-
-
-  // console.log("Username" + .username);
-  //  try {
-  //  var selec= options.find(opt => opt.value===type_cedula);
-  //  console.log(selec);
-  //  } catch (ex) {
-  //   console.log("Aui");
-  //    selec = options[0];
-  //  }
-  // console.log(selec);
+  const [errorMessages, setErrorMessages] = useState([])
   const [selected, setSelected] = useState(options[0].value);
   const [showPassword, setshowPassword] = useState(false);
   const handleClickShowPassword = () => {
@@ -156,35 +177,49 @@ const Profile = (props) => {
     setUserData({ ...userData, [name]: value });
   }
   const handleChangeActividadEco = (e) => {
+
     const { name, value } = e.target;
     setisActividadEco(true);
     console.log(e.target.value);
-   // setActividatToUpdate({...ActividadToUpdate,[name]:value});4
-   //setActividadEconomica({ ...ActividadEconomica,  });
-    setUserData({...userData,['actividad_economica']:{...userData.actividad_economica,[name]:e.target.value}});
+    // setActividatToUpdate({...ActividadToUpdate,[name]:value});4
+    //setActividadEconomica({ ...ActividadEconomica,  });
+    setUserData({ ...userData, ['actividad_economica']: { ...userData.actividad_economica, [name]: e.target.value } });
     console.log("Userdata : " + JSON.stringify(userData));
   }
   const handleData = (e) => {
+    try {
+      var dataok = e.toISOString().split('T')[0];
+      console.log(dataok);
+      setUserData({ ...userData, fecha_expedition: dataok });
+    }
+    catch (ex) { console.log(ex); }
 
-    var dataok = e.toISOString().split('T')[0];
-    console.log(dataok);
-    setUserData({ ...userData, fecha_expedition: dataok, });
   }
   const handleDataActividadEco = (e) => {
+    try {
+      var dataok = e.toISOString().split('T')[0];
+      console.log(dataok);
+      setisActividadEco(true);
+      // setActividadToUpdate({...ActividadToUpdate, fecha_ingreso_emp: dataok});
+      setUserData({ ...userData, ['actividad_economica']: { ...userData.actividad_economica, fecha_ingreso_emp: dataok } });
 
-    var dataok = e.toISOString().split('T')[0];
-    console.log(dataok);
-    setisActividadEco(true);
-   // setActividadToUpdate({...ActividadToUpdate, fecha_ingreso_emp: dataok});
-   setUserData({...userData,['actividad_economica']:{...userData.actividad_economica,fecha_ingreso_emp:dataok}});
+    }
+    catch (e) {
+      console.log(e);
+    }
 
-   
+
+
   }
   const handleDataNacimento = (e) => {
+    try {
+      var dataok = e.toISOString().split('T')[0];
+      console.log(dataok);
+      setUserData({ ...userData, fecha_nacimiento: dataok });
+    } catch (error) {
+      console.log(error);
+    }
 
-    var dataok = e.toISOString().split('T')[0];
-    console.log(dataok);
-    setUserData({ ...userData, fecha_nacimiento: dataok, });
   }
   const handleChangeSelectG = (e) => {
     //console.log("cambie"+ e.target.name + "value"+ e.target.value);
@@ -215,10 +250,10 @@ const Profile = (props) => {
     await axios.post('/api/updateuser', userData).then(response => {
       if (response.status == 200) {
         alert(response.statusText + "- Usuario Actualizado Satisfactoriamente.");
-    
-        if(isActividadEco && userData.actividad_economica.id == null){
+
+        if (isActividadEco && userData.actividad_economica.id == null) {
           console.log(userData);
-           //setUserData({...userData,['actividad_economica']:{...userData.actividad_economica,user:userData.id}});
+          //setUserData({...userData,['actividad_economica']:{...userData.actividad_economica,user:userData.id}});
           axios.post('/api/actividad_economica', userData).then(response2 => {
             console.log("Response2" + JSON.stringify(response2))
             if (response2.status == 200) {
@@ -227,10 +262,10 @@ const Profile = (props) => {
             }
           });
         }
-        else if(isActividadEco && userData.actividad_economica != null){
+        else if (isActividadEco && userData.actividad_economica != null) {
 
           //console.log("Actividad to Update :" + userData); 
-          axios.post('/api/actividad_update',userData.actividad_economica).then(response2 => {
+          axios.post('/api/actividad_update', userData.actividad_economica).then(response2 => {
             console.log("Response2" + JSON.stringify(response2))
             if (response2.status == 200) {
 
@@ -240,7 +275,7 @@ const Profile = (props) => {
           });
         }
         setDisable(true);
-        
+
       }
 
     })
@@ -250,7 +285,44 @@ const Profile = (props) => {
 
     console.log(userData);
   }
-
+  const handleRowAdd = (newData, resolve) => {
+    //validation
+    let errorList = []
+    newData.id =userData.id;
+    if(newData.tipo_referencia === undefined){
+      errorList.push("Please enter tipo reference")
+    }
+    if(newData.nombre_ref === undefined){
+      errorList.push("Please enter  name")
+    }
+    if(newData.parentesco_ref === undefined){
+      errorList.push("Please enter a valid parntesco")
+    }
+    if(errorList.length < 1){ //no error
+      console.log("No error ");
+      axios.post("/api/referencia", newData)
+        .then(res => {
+          console.log("Responmse" + res);
+          let dataToAdd = [...userData.referencias];
+          dataToAdd.push(newData);
+          console.log("DataToAdd" + dataToAdd);
+          setUserData({...userData, ['referencias']: dataToAdd });
+          console.log("UserData" + userData);
+          resolve()
+          setErrorMessages([])
+          //setIserror(false)
+       })
+       .catch(error => {
+          setErrorMessages(["Cannot add data. Server error!"])
+          //setIserror(true)
+          resolve()
+        })
+    }else{
+      setErrorMessages(errorList)
+     // setIserror(true)
+      resolve()
+    }
+  }
 
   const logout = async () => {
     try {
@@ -341,7 +413,7 @@ const Profile = (props) => {
                 name='fecha_expedition'
                 label="Fecha Expedición"
                 placeholder="fecha expedición"
-                value={userData.fecha_expedition}
+                value={userData.fecha_expedition ? userData.fecha_expedition : ''}
                 onChange={(newValue) => {
                   handleData(newValue);
                 }}
@@ -359,7 +431,7 @@ const Profile = (props) => {
               placeholder="Tu Nombre"
               name='nombre'
               onChange={e => handleChange(e)}
-              value={userData.nombre}
+              value={userData.nombre ? userData.nombre : ''}
               variant="filled"
               disabled={disable}
 
@@ -371,7 +443,7 @@ const Profile = (props) => {
               placeholder="Tu 1er Apellido"
               name='primer_apellido'
               onChange={e => handleChange(e)}
-              value={userData.primer_apellido}
+              value={userData.primer_apellido ? userData.primer_apellido : ''}
               variant="filled"
               disabled={disable}
 
@@ -382,7 +454,7 @@ const Profile = (props) => {
               placeholder="Tu 2do Apellido"
               name='seg_apellido'
               onChange={e => handleChange(e)}
-              value={userData.seg_apellido}
+              value={userData.seg_apellido ? userData.seg_apellido : ''}
               variant="filled"
               disabled={disable}
 
@@ -391,7 +463,7 @@ const Profile = (props) => {
               id="genero"
               name="genero"
               label="Genero:"
-              value={userData.genero}
+              value={userData.genero ? userData.genero : ''}
               onChange={e => handleChangeSelectG(e)}
               helperText="Tu Genero"
               variant="filled"
@@ -411,7 +483,7 @@ const Profile = (props) => {
               placeholder="Luga de Expedición"
               name='lugar_expedition'
               onChange={e => handleChange(e)}
-              value={userData.lugar_expedition}
+              value={userData.lugar_expedition ? userData.lugar_expedition : ''}
               disabled={disable}
               variant="filled"
             />
@@ -423,7 +495,7 @@ const Profile = (props) => {
                 name='fecha_nacimiento'
                 label="Fecha Nascimiento"
                 placeholder="fecha nascimiento"
-                value={userData.fecha_nacimiento}
+                value={userData.fecha_nacimiento ? userData.fecha_nacimiento : ''}
                 onChange={(newValue) => {
                   handleDataNacimento(newValue);
                 }}
@@ -438,7 +510,7 @@ const Profile = (props) => {
               placeholder="Luga de Nascimento"
               name='lugar_nascimento'
               onChange={e => handleChange(e)}
-              value={userData.lugar_nascimento}
+              value={userData.lugar_nascimento ? userData.lugar_nascimiento : ''}
               disabled={disable}
               variant="filled"
             />
@@ -448,7 +520,7 @@ const Profile = (props) => {
               placeholder="Telefono"
               name='telefono'
               onChange={e => handleChange(e)}
-              value={userData.telefono}
+              value={userData.telefono ? userData.telefono : ''}
               disabled={disable}
               variant="filled"
             />
@@ -458,7 +530,7 @@ const Profile = (props) => {
               placeholder="Celular"
               name='celular'
               onChange={e => handleChange(e)}
-              value={userData.celular}
+              value={userData.celular ? userData.telefono : ''}
               disabled={disable}
               variant="filled"
             />
@@ -466,7 +538,7 @@ const Profile = (props) => {
               id="tipo_vivienda"
               name="tipo_vivienda"
               label="Tipo Vivienda:"
-              value={userData.tipo_vivienda}
+              value={userData.tipo_vivienda ? userData.tipo_vivienda : ''}
               onChange={e => handleChangeSelectV(e)}
               helperText="Tu tipo vivienda"
               variant="filled"
@@ -497,7 +569,7 @@ const Profile = (props) => {
               label="Actividad Principal :"
               placeholder="actividad principal"
               name='actividad_principal'
-              value={userData.actividad_economica ? userData.actividad_economica.actividad_principal :''}
+              value={userData.actividad_economica ? userData.actividad_economica.actividad_principal : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -508,7 +580,7 @@ const Profile = (props) => {
               label="Nombre Empresa :"
               placeholder="nombre empresa"
               name='nombre_empresa'
-              value={userData.actividad_economica ? userData.actividad_economica.nombre_empresa:''}
+              value={userData.actividad_economica ? userData.actividad_economica.nombre_empresa : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -519,7 +591,7 @@ const Profile = (props) => {
               label="Actividad Empresa :"
               placeholder="actividad empresa"
               name='actividad_empresa'
-              value={userData.actividad_economica ? userData.actividad_economica.actividad_empresa:''}
+              value={userData.actividad_economica ? userData.actividad_economica.actividad_empresa : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -529,7 +601,7 @@ const Profile = (props) => {
               label="Dirección Empresa :"
               placeholder="dirección empresa"
               name='direccion_empresa'
-              value={userData.actividad_economica ? userData.actividad_economica.direccion_empresa:''}
+              value={userData.actividad_economica ? userData.actividad_economica.direccion_empresa : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -540,7 +612,7 @@ const Profile = (props) => {
               label="Nit :"
               placeholder="nit"
               name='nit'
-              value={userData.actividad_economica ?userData.actividad_economica.nit:''}
+              value={userData.actividad_economica ? userData.actividad_economica.nit : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -553,7 +625,7 @@ const Profile = (props) => {
               label="Telefono Empresa :"
               placeholder="telefono empresa"
               name='telefono_empresa'
-              value={userData.actividad_economica ? userData.actividad_economica.telefono_empresa:''}
+              value={userData.actividad_economica ? userData.actividad_economica.telefono_empresa : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -564,7 +636,7 @@ const Profile = (props) => {
               label="Ciudad Empresa :"
               placeholder="ciudad empresa"
               name='ciudad_empresa'
-              value={userData.actividad_economica ? userData.actividad_economica.ciudad_empresa:''}
+              value={userData.actividad_economica ? userData.actividad_economica.ciudad_empresa : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -574,7 +646,7 @@ const Profile = (props) => {
               label="Cargo Empresa :"
               placeholder="cargo empresa"
               name='cargo_empresa'
-              value={userData.actividad_economica ? userData.actividad_economica.cargo_empresa:''}
+              value={userData.actividad_economica ? userData.actividad_economica.cargo_empresa : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -586,7 +658,7 @@ const Profile = (props) => {
                 name='fecha_ingreso_emp'
                 label="Fecha Ingreso"
                 placeholder="fecha ingreso"
-                value={userData.actividad_economica ? userData.actividad_economica.fecha_ingreso_emp :''}
+                value={userData.actividad_economica ? userData.actividad_economica.fecha_ingreso_emp : ''}
                 onChange={(newValue) => {
                   handleDataActividadEco(newValue);
                 }}
@@ -600,7 +672,7 @@ const Profile = (props) => {
               label="Top Contrato :"
               placeholder="tipo contrato"
               name='tipo_contrato'
-              value={userData.actividad_economica ? userData.actividad_economica.tipo_contrato :''}
+              value={userData.actividad_economica ? userData.actividad_economica.tipo_contrato : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -609,14 +681,14 @@ const Profile = (props) => {
           </div>
           <div>
 
-             <FormControlLabel control={<Checkbox disabled={disable} checked={userData.actividad_economica ? userData.actividad_economica.participacion_emp : false}></Checkbox>} label="Participación Empresa" />
+            <FormControlLabel control={<Checkbox disabled={disable} checked={userData.actividad_economica ? userData.actividad_economica.participacion_emp : false}></Checkbox>} label="Participación Empresa" />
 
             <TextField
               id="porcentaje_participacion"
               label="% Participación :"
               placeholder="% participación"
               name='porcentaje_participacion'
-              value={userData.actividad_economica ? userData.actividad_economica.porcentaje_participacion :''}
+              value={userData.actividad_economica ? userData.actividad_economica.porcentaje_participacion : ''}
               onChange={e => handleChangeActividadEco(e)}
               variant="filled"
               disabled={disable}
@@ -633,7 +705,39 @@ const Profile = (props) => {
         Item Four
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Item Five
+        <div style={{ maxWidth: '100%' }}>
+          <MaterialTable
+            icons={tableIcons}
+            columns={[
+              { title: 'id', field: 'id' },
+              { title: 'Tipo Referencia', field: 'tipo_referencia' },
+              { title: 'Nombre', field: 'nombre_ref' },
+              { title: 'Parentesco', field: 'parentesco_ref'/* lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' } */ },
+              { title: 'Telefono', field: 'telefono_ref', type: 'numeric' },
+              { title: 'Dirección', field: 'direccion_ref' },
+              { title: 'Ciudad', field: 'ciudad_ref' },
+              { title: 'Fecha Creación', field: 'createdAt' },
+
+            ]}
+            data={userData.referencias}
+            editable={{
+                onRowUpdate: (newData, oldData) =>
+                  new Promise((resolve) => {
+                      handleRowUpdate(newData, oldData, resolve);
+                      
+                  }),
+                onRowAdd: (newData) =>
+                  new Promise((resolve) => {
+                    handleRowAdd(newData, resolve)
+                  }),
+                onRowDelete: (oldData) =>
+                  new Promise((resolve) => {
+                    handleRowDelete(oldData, resolve)
+                  }),
+              }}
+            title="Referencias"
+          />
+        </div>
       </TabPanel>
 
       <div style={{ textAlign: 'center' }}>
@@ -657,7 +761,7 @@ export const getServerSideProps = async (ctx) => {
   if (session?.jwt) {
     try {
       // console.log("Entre aqui " + strapiToken);
-      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id + '?populate[0]=actividad_economica', {
+      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id + '?populate=%2A', {
         headers: {
           Authorization:
             `Bearer ${strapiToken}`,

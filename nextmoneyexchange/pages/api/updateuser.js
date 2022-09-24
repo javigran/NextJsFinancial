@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 export default async (req, res) => {
-  const { id,username, password, email,nombre,primer_apellido,seg_apellido,fecha_expedition,type_cedula,no_cedula,genero,lugar_expedition,telefono, celular, tipo_vivienda } = req.body;
+  const { id,username, password, email,nombre,primer_apellido,seg_apellido,fecha_expedition,type_cedula,no_cedula,genero,fecha_nacimiento,lugar_nascimiento,lugar_expedition,telefono, celular, tipo_vivienda } = req.body;
   const strapiToken = process.env.API_TOKEN;
   const strapiUrl = process.env.STRAPI_URL;
   const header =  {
@@ -24,6 +24,8 @@ export default async (req, res) => {
     type_cedula,
     no_cedula,
     genero,
+    fecha_nacimiento,
+    lugar_nascimiento,
     lugar_expedition,
     telefono,
     celular,
