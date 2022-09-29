@@ -79,13 +79,23 @@ const Navbar = () => {
 
       
       <List>
-          <ListItem key={'credito'} disablePadding>
+          <ListItem key={'protected'} disablePadding>
           <Link href="/protected">
             <ListItemButton>
               <ListItemIcon>
                  <InboxIcon /> 
               </ListItemIcon>
-              <ListItemText primary={'Protected Page'} />
+              <ListItemText primary={'Protected'} />
+            </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem key={'credito'} disablePadding>
+          <Link href="/credito">
+            <ListItemButton>
+              <ListItemIcon>
+                 <InboxIcon /> 
+              </ListItemIcon>
+              <ListItemText primary={'Mis Creditos'} />
             </ListItemButton>
             </Link>
           </ListItem>
