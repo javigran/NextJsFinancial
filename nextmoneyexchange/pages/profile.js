@@ -74,7 +74,6 @@ function a11yProps(index) {
 
 const Profile = (props) => {
   const router = useRouter();
-  const { data: session } = useSession();
   const { user: { id, email, username, nombre, primer_apellido, seg_apellido, no_cedula, type_cedula, fecha_expedition, lugar_expedition, genero, fecha_nacimiento, lugar_nascimiento, telefono, celular, tipo_vivienda, actividad_economica, referencias } } = props;
   const [value, setValue] = useState(0);
   const [disable, setDisable] = useState(true);
@@ -116,7 +115,6 @@ const Profile = (props) => {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
-  var selecG = optionsG.find(opt => opt.value === genero);
   const [isActividadEco, setisActividadEco] = useState(false);
   // const [selectedG, setSelectedG] = useState(selecG.value);
   const [userData, setUserData] = useState({
@@ -142,7 +140,7 @@ const Profile = (props) => {
   })
 
   var id_actividad = null;
-  var actividad_principal, nombre_empresa, actividad_empresa, direccion_empresa, nit, telefono_empresa, ciudad_empresa, cargo_empresa, fecha_ingreso_emp, tipo_contrato, porcentaje_participacion, participacion_emp = '';
+  //var actividad_principal, nombre_empresa, actividad_empresa, direccion_empresa, nit, telefono_empresa, ciudad_empresa, cargo_empresa, fecha_ingreso_emp, tipo_contrato, porcentaje_participacion, participacion_emp = '';
 
 
 
@@ -302,7 +300,7 @@ const Profile = (props) => {
       console.log("No error ");
       axios.post("/api/referencia", newData)
         .then(res => {
-          console.log("Responmse" + res);
+          console.log("Responmse" + res);   
           let dataToAdd = [...userData.referencias];
           dataToAdd.push(newData);
           console.log("DataToAdd" + dataToAdd);
@@ -790,4 +788,8 @@ export const getServerSideProps = async (ctx) => {
     }
   }
 }
+
+
+Profile.displayName = 'Profile';
+
 export default Profile;

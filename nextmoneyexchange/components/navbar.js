@@ -79,13 +79,13 @@ const Navbar = () => {
 
       
       <List>
-          <ListItem key={'protected'} disablePadding>
+          <ListItem key={'home'} disablePadding>
           <Link href="/protected">
             <ListItemButton>
               <ListItemIcon>
                  <InboxIcon /> 
               </ListItemIcon>
-              <ListItemText primary={'Protected'} />
+              <ListItemText primary={'Home'} />
             </ListItemButton>
             </Link>
           </ListItem>

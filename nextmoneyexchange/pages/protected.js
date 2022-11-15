@@ -4,15 +4,18 @@ import Link from 'next/link';
 import styles from '../styles/Protected.module.css';
 import { signOut, useSession } from 'next-auth/react'
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import axios from 'axios';
+
 
 export default function Protected() {
   const {data:session} = useSession();
-
+    console.log("Data Use Session " + session);
   return (
     <div className={styles.container}>
      <main className={styles.main}>
      <h1 className={styles.title}>
-        ¡Hola, {session.user.name}
+        ¡Hola, {session.user.name} 
         </h1>
       
         <h2 className={styles.grid}>
@@ -20,11 +23,19 @@ export default function Protected() {
         </h2>
         <p>Valor disponible para solicitar o reinvertir .</p>
         <div className={styles.grid}>
-          <a href="https://" className={styles.card}>
-          <h2>Mis inversiones &rarr;</h2>  </a>
+         <div className={styles.card}> 
+         <Link href="/credito" >
+                <Typography textAlign="center" variant="h5" component="div" >Mis créditos &rarr;</Typography>
+         </Link>
+         </div>
+         <div className={styles.card}> 
+         <Link href="/inversion" >
+                <Typography textAlign="center" variant="h5" component="div" >Mis Inversiones &rarr;</Typography>
+         </Link>
+         </div>
+        
        
-          <a href="https://" className={styles.card}>
-            <h2>Mis créditos &rarr;</h2>  </a>
+         
 
           <a href="https://" className={styles.card}>
             <h2>Invertir &rarr;</h2> </a>
@@ -56,18 +67,45 @@ export default function Protected() {
 }
 
 export const getServerSideProps = async (context) => {
+  //const session = await getSession(context);
+  const strapiToken = process.env.API_TOKEN;
+  const strapiUrl = process.env.STRAPI_URL;
   const session = await getSession(context);
   console.log("Retorne session"+ JSON.stringify(session))
+
+  let user = null;
   // Check if session exists or not, if not, redirect
-  if (session == null) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: true,
-      },
-    };
+
+  if (session?.jwt) {
+    try {
+      // console.log("Entre aqui " + strapiToken);
+      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id + '?populate=%2A', {
+        headers: {
+          Authorization:
+            `Bearer ${strapiToken}`,
+        },
+      });
+      user = data;
+      console.log(user);
+    } catch (e) {
+      console.log(e);
+    }
   }
+
+  if (!user) {
+    return {
+
+      redirect: {
+        permanent: false,
+        destination: '/'
+      }
+    }
+  }
+
   return {
-    props: {},
-  };
+    props: {
+      user,
+      session
+    }
+  }
 };
