@@ -86,7 +86,7 @@ export const getServerSideProps = async (context) => {
         },
       });
       user = data;
-     console.log(user);
+    console.log(user);
     } catch (e) {
       console.log(e);
     }
