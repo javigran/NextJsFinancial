@@ -105,35 +105,17 @@ const Profile = (props) => {
     Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} displayName={'Export'} />),
     Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref}  displayName={'Filter'}/>),
     FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} displayName={'FirstPage'} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    Save: forwardRef((props,ref) => <Save {...props} ref={ref}/>),
-    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} displayName={'LastPage'} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} displayName={'NextPage'} />),
+    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} displayName={'PreviousPage'} />),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} displayName={'ResetSearch'} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} displayName={'Search'} />),
+    Save: forwardRef((props,ref) => <Save {...props} ref={ref} displayName={'Save'}/>),
+    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} displayName={'SortArrow'} />),
+    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} displayName={'ThirdStateCheck'}/>),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} displayName={'ViewColumn'} />)
   };
 
-  tableIcons.Add.displayName = 'Add';
-  tableIcons.Check.displayName = 'Check';
-  tableIcons.Clear.displayName = 'Clear';
-  tableIcons.Delete.displayName = 'Delete';
-  tableIcons.DetailPanel.displayName = 'DetailPanel'
-  tableIcons.Edit.displayName = 'Edit'
-  tableIcons.Export.displayName = 'Export'
-  tableIcons.Filter.displayName = 'Filter'
-  tableIcons.FirstPage.displayName = 'FirstPage'
-  tableIcons.LastPage.displayName = 'LastPage'
-  tableIcons.NextPage.displayName = 'NextPage'
-  tableIcons.PreviousPage.displayName = 'PreviousPage'
-  tableIcons.ResetSearch.displayName = 'ResetSearch'
-  tableIcons.Search.displayName = 'Search'
-  tableIcons.Save.displayName = 'Save'
-  tableIcons.SortArrow.displayName = 'SortArrow'
-  tableIcons.ThirdStateCheck.displayName = 'ThirdStateCheck'
-  tableIcons.ViewColumn.displayName = 'ViewColumn'
 
 
 
