@@ -96,7 +96,7 @@ const Profile = (props) => {
     { value: 'Propia con Hipoteca', text: 'Propia con Hipoteca' },
   ];
   const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} /> ),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
     Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
     Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
@@ -115,6 +115,9 @@ const Profile = (props) => {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
+  tableIcons.Add.displayName = 'Add';
+  tableIcons.Check.displayName = 'Check';
+  tableIcons.Clear.displayName = 'Clear';
   const [isActividadEco, setisActividadEco] = useState(false);
   // const [selectedG, setSelectedG] = useState(selecG.value);
   const [userData, setUserData] = useState({
