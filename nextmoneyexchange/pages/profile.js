@@ -96,15 +96,15 @@ const Profile = (props) => {
     { value: 'Propia con Hipoteca', text: 'Propia con Hipoteca' },
   ];
   const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} /> ),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} displayName={'Add'} /> ),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} displayName={'Check'} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} displayName={'Clear'} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} displayName={'Delete'} />),
+    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} displayName={'DetailPanel'} />),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} displayName={'Edit'} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} displayName={'Export'} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref}  displayName={'Filter'}/>),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} displayName={'FirstPage'} />),
     LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
@@ -115,9 +115,29 @@ const Profile = (props) => {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
   };
+
   tableIcons.Add.displayName = 'Add';
   tableIcons.Check.displayName = 'Check';
   tableIcons.Clear.displayName = 'Clear';
+  tableIcons.Delete.displayName = 'Delete';
+  tableIcons.DetailPanel.displayName = 'DetailPanel'
+  tableIcons.Edit.displayName = 'Edit'
+  tableIcons.Export.displayName = 'Export'
+  tableIcons.Filter.displayName = 'Filter'
+  tableIcons.FirstPage.displayName = 'FirstPage'
+  tableIcons.LastPage.displayName = 'LastPage'
+  tableIcons.NextPage.displayName = 'NextPage'
+  tableIcons.PreviousPage.displayName = 'PreviousPage'
+  tableIcons.ResetSearch.displayName = 'ResetSearch'
+  tableIcons.Search.displayName = 'Search'
+  tableIcons.Save.displayName = 'Save'
+  tableIcons.SortArrow.displayName = 'SortArrow'
+  tableIcons.ThirdStateCheck.displayName = 'ThirdStateCheck'
+  tableIcons.ViewColumn.displayName = 'ViewColumn'
+
+
+
+
   const [isActividadEco, setisActividadEco] = useState(false);
   // const [selectedG, setSelectedG] = useState(selecG.value);
   const [userData, setUserData] = useState({
