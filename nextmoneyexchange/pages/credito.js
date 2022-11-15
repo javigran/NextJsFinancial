@@ -190,7 +190,7 @@ export const getServerSideProps = async (ctx) => {
             });
             credito = data;
             user = credito.data[0].attributes.user.data;
-            console.log(credito);
+          //  console.log(credito);
             //  console.log(user.data);
         } catch (e) {
             console.log(e);
