@@ -31,7 +31,7 @@ export default NextAuth({
          // console.log("concat"+ Kconcat);
           return { ...user, jwt };
         } catch (error) {
-          // Sign In Fail
+          console.log(error);
           return null;
         }
       },
