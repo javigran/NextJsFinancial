@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-function meInvest({ posts }) {
+function MeInvest({ posts }) {
   const router = useRouter()
   const { id } = router.query
 
@@ -8,4 +8,4 @@ function meInvest({ posts }) {
 }
 
 
-export default meInvest
+export default MeInvest
