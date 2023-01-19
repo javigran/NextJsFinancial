@@ -22,6 +22,7 @@ import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
+import { StepIcon } from '@mui/material';
 
 
 
@@ -87,8 +88,11 @@ const Navbar = () => {
               </ListItemIcon>
               <ListItemText primary={'Home'} />
             </ListItemButton>
-            </Link>
+            </Link>   
           </ListItem>
+          </List>
+           <Divider />
+          <List>
           <ListItem key={'credito'} disablePadding>
           <Link href="/credito">
             <ListItemButton>
@@ -99,15 +103,24 @@ const Navbar = () => {
             </ListItemButton>
             </Link>
           </ListItem>
-      
+          <ListItem key={'inversion'} disablePadding>
+          <Link href="/inversion">
+            <ListItemButton>
+              <ListItemIcon>
+                 <InboxIcon /> 
+              </ListItemIcon>
+              <ListItemText primary={'Mis Inversiones'} />
+            </ListItemButton>
+            </Link>
+          </ListItem>
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['Invertir', 'Solicitar', 'Soporte'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon /> : <StepIcon/>}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>

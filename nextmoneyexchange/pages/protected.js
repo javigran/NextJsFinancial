@@ -37,10 +37,10 @@ export default function Protected() {
        
          
 
-          <a href="https://" className={styles.card}>
+          <a className={styles.card}>
             <h2>Invertir &rarr;</h2> </a>
 
-          <a href="https://" className={styles.card} >
+          <a className={styles.card} >
             <h2>Solicitar &rarr;</h2>  </a>
         </div>
         <p>Gana buenos rendimientos prestándole a personas con buen historial crediticio y capacidad de pago comprobada.</p>

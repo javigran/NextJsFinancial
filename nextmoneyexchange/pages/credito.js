@@ -165,7 +165,7 @@ export default function Credito(props) {
             </footer>
 
             <Link href="/protected">
-                <button>Back to home page</button>
+                <button>Regresar al Inicio</button>
             </Link>
         </div>
     );
