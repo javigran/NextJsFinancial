@@ -73,7 +73,7 @@ console.log(inversion);
                     <Grid item xs={2} sm={4} md={12} >
                   <h2>Lista de Inversiones </h2>  
                   <TableInversion data={inversion}/>
-      <ul>
+      {/* <ul>
       {inversion.map((inv) => (
         <li key={inv.id}>
           <Link
@@ -86,7 +86,7 @@ console.log(inversion);
           </Link>
         </li>
       ))}
-    </ul>
+    </ul> */}
 
                     </Grid>
                    

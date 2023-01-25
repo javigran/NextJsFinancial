@@ -6,17 +6,38 @@ import TableCredito from '../../components/tableCredito';
 import { Divider } from '@mui/material';
 import styles from '../../styles/Credito.module.css';
 import PMT from '../../utils/pmt';
+import Link from 'next/link';
+
 function MeInvest({ credito }) {
   const router = useRouter()
   //const { id } = router.query
  console.log("Credito is " + credito.data.attributes.valor_prestamo);
   return (
+    <div className={styles.container}>
     <Box>
        <Divider variant="middle" className={styles.main} />
      
       <TableCredito vp={credito.data.attributes.valor_prestamo} cp={credito.data.attributes.cuotas_pagar} ir={credito.data.attributes.tasa_mes_vcdo / 100} cf={PMT(credito.data.attributes.tasa_mes_vcdo / 100, credito.data.attributes.cuotas_pagar, credito.data.attributes.valor_prestamo).toFixed(1)} />
-           
+     
     </Box>
+    <Divider variant="middle" className={styles.main} />
+        <footer className={styles.footer}>
+            <a
+                href="https://eco2.com.co"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Powered by{'   '} ECO²
+                {/* <span className={styles.logo}>
+        <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+      </span> */}
+            </a>
+        </footer>
+
+        <Link href="/inversion">
+            <button>Volver a Mis Inversiones</button>
+        </Link> 
+    </div>
   )
 }
 
