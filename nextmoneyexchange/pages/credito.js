@@ -27,9 +27,10 @@ export default function Credito(props) {
     const valor_credito = props.credito.data[0] ? credito.data[0].attributes.valor_prestamo : '';
     const cuotas_pagar = props.credito.data[0] ? credito.data[0].attributes.cuotas_pagar: '';
     const tasa_mes_vcdo = props.credito.data[0]? credito.data[0].attributes.tasa_mes_vcdo : '';
+    const tasa_fi = props.credito.data[0] ? (credito.data[0].attributes.tasa_mes_vcdo + credito.data[0].attributes.tasa_fi) : '';
     const [disable, setDisable] = useState(true);
-
-
+    
+  //console.log("Tasa FI is " + tasa_fi);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
@@ -100,7 +101,7 @@ export default function Credito(props) {
                                 label="Tasa Mes Vencido :"
                                 placeholder="Tasa Mes Vencido"
                                 name='tasa_mes_vcdo'
-                                value={tasa_mes_vcdo + '%'}
+                                value={tasa_fi + '%'}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
@@ -139,7 +140,7 @@ export default function Credito(props) {
                     </Grid>
 
                     <Divider variant="middle" className={styles.main} />
-                    <TableCredito vp={valor_credito} cp={cuotas_pagar} ir={tasa_mes_vcdo / 100} cf={PMT(tasa_mes_vcdo / 100, cuotas_pagar, valor_credito).toFixed(1)} />
+                    <TableCredito vp={valor_credito} cp={cuotas_pagar} ir={tasa_fi / 100} cf={PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(1)} />
                 </Box>) : (<Box>
                     <Divider variant="middle" className={styles.main} />
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>

@@ -163,7 +163,7 @@ const Profile = (props) => {
   })
 
   var id_actividad = null;
-  //var actividad_principal, nombre_empresa, actividad_empresa, direccion_empresa, nit, telefono_empresa, ciudad_empresa, cargo_empresa, fecha_ingreso_emp, tipo_contrato, porcentaje_participacion, participacion_emp = '';
+  var actividad_principal, nombre_empresa, actividad_empresa, direccion_empresa, nit, telefono_empresa, ciudad_empresa, cargo_empresa, fecha_ingreso_emp, tipo_contrato, porcentaje_participacion, participacion_emp = '';
 
 
 

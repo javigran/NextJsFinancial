@@ -79,10 +79,10 @@ console.log(inversion);
           <Link
             href={{
               pathname: '/meinv/[id]',
-              query: { id: inv.id },
+              query: { id: inv.attributes.credito.data.id },
             }}
           >
-            {'Id credito :'+ inv.id + ', Valor : ' + inv.attributes.valor_inversion }
+            {'Id credito :'+ inv.attributes.credito.data.id + ', Valor : ' + inv.attributes.valor_inversion }
           </Link>
         </li>
       ))}
@@ -149,7 +149,7 @@ export const getServerSideProps = async (ctx) => {
             if(data.data.length>0){
                 inversion = data.data;
                 user = data.data[0].attributes.users_permissions_user.data;            
-            
+                
             }
             
         } catch (e) {
