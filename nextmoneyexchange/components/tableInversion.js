@@ -148,7 +148,7 @@ export default function TableInversion({data}) {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <Link
+                  <Link key={row.code}
                  href={{
               pathname: '/meinv/[id]',
               query: { id: row['id_credito'] },
