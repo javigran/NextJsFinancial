@@ -169,7 +169,7 @@ export default function TableInversion({data}) {
                 );
               })}
           
-          <TableRow>
+          <TableRow key={'total_row'}>
             <TableCell colSpan={3}  align="center">Total</TableCell>
             <TableCell align="right">{total_valor_invs}</TableCell>
             <TableCell align="right">{total_cuota_mes}</TableCell>
