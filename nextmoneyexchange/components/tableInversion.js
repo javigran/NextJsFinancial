@@ -174,12 +174,12 @@ export default function TableInversion({data}) {
               })}
           
           <TableRow key={'total_row'}>
-            <TableCell colSpan={3}  align="center">Total</TableCell>
-            <TableCell align="right">{total_valor_invs}</TableCell>
-            <TableCell align="right">{total_cuota_mes}</TableCell>
-            
+            <TableCell colSpan={2}  align="center" style={{ fontWeight:'bold' }}>Total</TableCell>
+            <TableCell align="right" style={{ fontWeight:'bold' }}>{total_valor_invs}</TableCell>
+            <TableCell align="right" style={{ fontWeight:'bold' }}>{total_cuota_mes}</TableCell>
+            <TableCell align="right" ></TableCell>
             <TableCell align="right"></TableCell>
-            <TableCell align="right">{total_proyection}</TableCell>
+            <TableCell align="right" style={{ fontWeight:'bold' }}>{total_proyection}</TableCell>
           </TableRow>
           </TableBody>
         </Table>
