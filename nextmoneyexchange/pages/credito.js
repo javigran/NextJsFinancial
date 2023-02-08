@@ -131,7 +131,7 @@ export default function Credito(props) {
                                 label="Cuota Fija :"
                                 placeholder="Cuiota Fija"
                                 name='cuota_fija'
-                                value={PMT(tasa_mes_vcdo / 100, cuotas_pagar, valor_credito).toFixed(2)}
+                                value={PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(0)}
                                 onChange={e => handleChange(e)}
                                 variant="filled"
                                 disabled={disable}
