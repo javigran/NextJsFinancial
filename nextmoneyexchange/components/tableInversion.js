@@ -21,13 +21,13 @@ const columns = [
       format: (value) => value.toLocaleDateString(),
     },
 
-    {
-        id: 'id_inversionista',
-        label: 'CC Inversionista',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('es-CO'),
-      },
+    // {
+    //     id: 'id_inversionista',
+    //     label: 'CC Inversionista',
+    //     minWidth: 170,
+    //     align: 'right',
+    //     format: (value) => value.toLocaleString('es-CO'),
+    //   },
 
       {
         id: 'valor_inversion',
@@ -72,9 +72,11 @@ export default function TableInversion({data}) {
   //  console.log("Inversion 0 " + JSON.stringify(data.inversions[0]));
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    function createData(id_credito,createdAt,id_inversionista,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
+    // function createData(id_credito,createdAt,id_inversionista,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
+
+    function createData(id_credito,createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
         //const density = population / size;
-        return {id_credito, createdAt,id_inversionista,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total};
+        return {id_credito, createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total};
     }
     
     function subtotal(items, param) {
@@ -109,8 +111,10 @@ export default function TableInversion({data}) {
         let date_created = new Date(inv.attributes.credito.data.attributes.createdAt);
        // console.log(date_created.toLocaleDateString());
         let cuota_fija = parseFloat(PMT(inv.attributes.credito.data.attributes.tasa_mes_vcdo/100,inv.attributes.credito.data.attributes.cuotas_pagar,inv.attributes.credito.data.attributes.valor_prestamo).toFixed(0));
-        rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(),inv.attributes.credito.data.attributes.id_inversionista, parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(1),inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
-    });
+       // rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(),inv.attributes.credito.data.attributes.id_inversionista, parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(1),inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
+       rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(), parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(0) + '%',inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
+    
+      });
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
       };
@@ -173,7 +177,7 @@ export default function TableInversion({data}) {
             <TableCell colSpan={3}  align="center">Total</TableCell>
             <TableCell align="right">{total_valor_invs}</TableCell>
             <TableCell align="right">{total_cuota_mes}</TableCell>
-            <TableCell align="right"></TableCell>   
+            
             <TableCell align="right"></TableCell>
             <TableCell align="right">{total_proyection}</TableCell>
           </TableRow>

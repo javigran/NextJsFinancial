@@ -7,16 +7,59 @@ import { Divider } from '@mui/material';
 import styles from '../../styles/Credito.module.css';
 import PMT from '../../utils/pmt';
 import Link from 'next/link';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+
 
 function MeInvest({ credito }) {
   const router = useRouter()
   //const { id } = router.query
- console.log("Credito is " + credito.data.attributes.valor_prestamo);
+ console.log("Credito is " + credito);
+ //const username = credito.data.attributes.
+ const disable = true;
+ const username = credito.data.attributes.user.data.attributes.username
   return (
     <div className={styles.container}>
     <Box>
        <Divider variant="middle" className={styles.main} />
-     
+       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
+                        <Grid item xs={3} sm={4} md={4} >
+                            <TextField
+                                id="username"
+                                label="Nombre del Cliente :"
+                                placeholder="Nombre del Cliente"
+                                name='username'
+                                value={username}
+                                onChange={e => handleChange(e)}
+
+                                disabled={disable}
+                            />
+                        </Grid>
+                        <Grid item xs={3} sm={4} md={4}  >
+                            <TextField
+                                id="tipo_garantia"
+                                label="Tipo de Garantia :"
+                                placeholder="Tipo de Garantia"
+                                name='tipo_garantia'
+                            
+                            />
+
+                        </Grid>
+                        <Grid item xs={3} sm={4} md={4} >
+                            <TextField
+                                id="username"
+                                label="Valor del Préstamo :"
+                                placeholder="Valor del Préstamo"
+                                name='username'
+                                value={'xx'}
+                                onChange={e => handleChange(e)}
+
+                                disabled={disable}
+                            />
+                        </Grid>
+
+                    </Grid>
+                    
       <TableCredito vp={credito.data.attributes.valor_prestamo} cp={credito.data.attributes.cuotas_pagar} ir={credito.data.attributes.tasa_mes_vcdo / 100} cf={PMT(credito.data.attributes.tasa_mes_vcdo / 100, credito.data.attributes.cuotas_pagar, credito.data.attributes.valor_prestamo).toFixed(1)} />
      
     </Box>
@@ -52,7 +95,7 @@ export const getServerSideProps = async (ctx) => {
   if (session?.jwt) {
     try {
       // console.log("Entre aqui " + strapiToken);
-      const { data } = await axios.get(`${strapiUrl}/api/creditos/` + id, {
+      const { data } = await axios.get(`${strapiUrl}/api/creditos/` + id +`?populate[0]=user`, {
         headers: {
           Authorization:
             `Bearer ${strapiToken}`,

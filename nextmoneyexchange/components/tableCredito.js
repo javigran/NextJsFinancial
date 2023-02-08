@@ -43,7 +43,7 @@ const columns = [
 
 /**
  * 
- * @param {*} param0 
+ * @param {*} param0
  * @returns 
  */
 export default function TableCredito({vp,cp,ir,cf}) {
@@ -59,8 +59,9 @@ export default function TableCredito({vp,cp,ir,cf}) {
   var intereses = vp * ir;
   var capital = cf - intereses; 
   var vp_updated = vp - capital;
+  
   for (let index = 0; index < cp; index++) {
-    rows.push(createData(index+1,capital,intereses,parseFloat(cf) , vp_updated)); 
+    rows.push(createData(index+1, parseInt(capital),parseInt(intereses),parseInt(cf), parseFloat(vp_updated.toFixed(0)))); 
     intereses = vp_updated * ir;
     capital = cf - intereses;
     vp_updated = vp_updated - capital;
