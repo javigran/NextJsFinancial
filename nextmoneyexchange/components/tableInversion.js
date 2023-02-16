@@ -12,14 +12,14 @@ import Link from 'next/link';
 import PMT from '../utils/pmt';
 
 const columns = [
-    { id: 'id_credito', label: 'Id Credito' },
-    {
-      id: 'createdAt',
-      label: 'Fecha Credito',
-      minWidth: 170,
-      align: 'right',
-      format: (value) => value.toLocaleDateString(),
-    },
+    // { id: 'id_credito', label: 'Id Credito' },
+    // {
+    //   id: 'createdAt',
+    //   label: 'Fecha Credito',
+    //   minWidth: 170,
+    //   align: 'right',
+    //   format: (value) => value.toLocaleDateString(),
+    // },
 
     // {
     //     id: 'id_inversionista',
@@ -43,13 +43,13 @@ const columns = [
         align: 'right',
         format: (value) => value.toLocaleString('es-CO'),
       },
-      {
-        id: 'tasa',
-        label: 'Tasa (Mes Vencido)',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('es-CO'),
-      },
+      // {
+      //   id: 'tasa',
+      //   label: 'Tasa (Mes Vencido)',
+      //   minWidth: 170,
+      //   align: 'right',
+      //   format: (value) => value.toLocaleString('es-CO'),
+      // },
       {
         id: 'cuotas_pagar',
         label: 'Cuotas a pagar',
@@ -174,11 +174,10 @@ export default function TableInversion({data}) {
               })}
           
           <TableRow key={'total_row'}>
-            <TableCell colSpan={2}  align="center" style={{ fontWeight:'bold' }}>Total</TableCell>
-            <TableCell align="right" style={{ fontWeight:'bold' }}>{total_valor_invs}</TableCell>
+
+            <TableCell align="right" style={{ fontWeight:'bold' }}>Total: {total_valor_invs}</TableCell>
             <TableCell align="right" style={{ fontWeight:'bold' }}>{total_cuota_mes}</TableCell>
-            <TableCell align="right" ></TableCell>
-            <TableCell align="right"></TableCell>
+            <TableCell align="right" style={{ fontWeight:'bold' }}></TableCell>
             <TableCell align="right" style={{ fontWeight:'bold' }}>{total_proyection}</TableCell>
           </TableRow>
           </TableBody>

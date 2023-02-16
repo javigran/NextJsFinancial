@@ -10,11 +10,14 @@ import Link from 'next/link';
 import { fontFamily } from '@mui/system';
 import TableInversion from '../components/tableInversion';
 import { Container } from '@mui/material';
+import { useState } from 'react';
+import { signOut, useSession } from 'next-auth/react'
 /**
  * Inversion Page 
  * @param {props  from server side } props 
  */
 export default function Inversion(props){
+ const { data: session } = useSession();
  const inversion = props.inversion;
  const user =  props.user;
 
@@ -26,12 +29,19 @@ console.log(inversion);
 
  return (
     
-
-   <Container>
+    <div className={styles.container}>
+       
+ 
         {inversion ? (
-            
-            <Box>
-                <Divider variant="middle" className={styles.main} />
+            <Container>
+            <Box
+          component="div"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch', textAlign:'center', alignItems:'center' },
+          }}
+          noValidate
+          autoComplete="off">
+              
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{margin:2}}>
                     <Grid item xs={3} sm={4} md={12} >
                         <TextField
@@ -73,28 +83,17 @@ console.log(inversion);
                    
                 </Grid>
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{marginTop:1}}>
-                    <Grid item xs={2} sm={4} md={12} >
+                   
                   <h2>Lista de Inversiones </h2>  
+                  <Grid container spacing={2} style={{ marginTop: 1 }}>
                   <TableInversion data={inversion}/>
-      {/* <ul>
-      {inversion.map((inv) => (
-        <li key={inv.id}>
-          <Link
-            href={{
-              pathname: '/meinv/[id]',
-              query: { id: inv.attributes.credito.data.id },
-            }}
-          >
-            {'Id credito :'+ inv.attributes.credito.data.id + ', Valor : ' + inv.attributes.valor_inversion }
-          </Link>
-        </li>
-      ))}
-    </ul> */}
-
+                  </Grid>
+   
                     </Grid>
                    
-                </Grid>
-                </Box>) : (<Box>
+               
+                </Box>
+                </Container>) : (<Box>
                 <Divider variant="middle" className={styles.main} />
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{marginTop:1}}>
                    No tiene Inversiones
@@ -103,7 +102,7 @@ console.log(inversion);
                 
        
  
-                <Divider variant="middle" className={styles.main} />
+                
         <footer className={styles.footer}>
             <a
                 href="https://eco2.com.co"
@@ -120,8 +119,8 @@ console.log(inversion);
         <Link href="/protected">
             <button>Back to home page</button>
         </Link>
-        </Container>
-    
+      
+    </div>
 
 );
 
