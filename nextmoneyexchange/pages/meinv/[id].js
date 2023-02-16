@@ -9,6 +9,7 @@ import PMT from '../../utils/pmt';
 import Link from 'next/link';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import { Container } from '@mui/system';
 
 
 function MeInvest({ credito }) {
@@ -20,8 +21,9 @@ function MeInvest({ credito }) {
  const username = credito.data.attributes.user.data.attributes.username
   return (
     <div className={styles.container}>
+    <Container>
     <Box>
-       <Divider variant="middle" className={styles.main} />
+       {/* <Divider variant="middle" className={styles.main} />  */}
        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
                         <Grid item xs={3} sm={4} md={4} >
                             <TextField
@@ -63,7 +65,8 @@ function MeInvest({ credito }) {
       <TableCredito vp={credito.data.attributes.valor_prestamo} cp={credito.data.attributes.cuotas_pagar} ir={credito.data.attributes.tasa_mes_vcdo / 100} cf={PMT(credito.data.attributes.tasa_mes_vcdo / 100, credito.data.attributes.cuotas_pagar, credito.data.attributes.valor_prestamo).toFixed(1)} />
      
     </Box>
-    <Divider variant="middle" className={styles.main} />
+    </Container>
+    {/* <Divider variant="middle" className={styles.main} /> */}
         <footer className={styles.footer}>
             <a
                 href="https://eco2.com.co"
