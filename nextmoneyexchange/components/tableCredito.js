@@ -7,6 +7,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import Box from '@mui/material/Box';
+
+
+
 
 const columns = [
   { id: 'no_cuota', label: '# Cuota' },
@@ -50,6 +54,7 @@ export default function TableCredito({vp,cp,ir,cf}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   
+
   function createData(no_cuota, capital, intereses, total_cuota,saldo_credito) {
     //const density = population / size;
     return {no_cuota, capital, intereses, total_cuota,saldo_credito };
@@ -97,6 +102,7 @@ export default function TableCredito({vp,cp,ir,cf}) {
   };
 
   return (
+  
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
       <TableContainer sx={{ maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
@@ -145,5 +151,7 @@ export default function TableCredito({vp,cp,ir,cf}) {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
+
+    
   );
 }

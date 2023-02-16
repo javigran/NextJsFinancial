@@ -14,6 +14,8 @@ import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider';
 import TableCredito from '../components/tableCredito';
 import PMT from '../utils/pmt';
+import { textAlign } from '@mui/system';
+import { Container } from '@mui/material';
 
 export default function Credito(props) {
 
@@ -42,11 +44,20 @@ export default function Credito(props) {
 
 
         <div className={styles.container}>
+       
             {credito.data[0] ?
-                (<Box>
-                    <Divider variant="middle" className={styles.main} />
+
+                (  
+                 <Container>
+                    <Box
+          component="div"
+          sx={{
+            '& .MuiTextField-root': { m: 1, width: '25ch', textAlign:'center', alignItems:'center' },
+          }}
+          noValidate
+          autoComplete="off">
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
-                        <Grid item xs={3} sm={4} md={4} >
+                       
                             <TextField
                                 id="username"
                                 label="Nombre del Cliente :"
@@ -57,33 +68,33 @@ export default function Credito(props) {
 
                                 disabled={disable}
                             />
-                        </Grid>
-                        <Grid item xs={3} sm={4} md={4}  >
+                     
+                    
                             <TextField
                                 id="tipo_garantia"
                                 label="Tipo de Garantia :"
                                 placeholder="Tipo de Garantia"
                                 name='tipo_garantia'
-                            
+                                
                             />
 
-                        </Grid>
-                        <Grid item xs={3} sm={4} md={4} >
+                     
                             <TextField
                                 id="username"
                                 label="Valor del Préstamo :"
                                 placeholder="Valor del Préstamo"
                                 name='username'
-                                value={valor_credito}
+                                value={ parseFloat(valor_credito).toLocaleString('es-CO')}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
                             />
-                        </Grid>
+                            
+                   
 
                     </Grid>
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
-                        <Grid item xs={3} sm={4} md={4} >
+                       
                             <TextField
                                 id="cuotas_pagar"
                                 label="Cuotas a pagar :"
@@ -94,8 +105,7 @@ export default function Credito(props) {
 
                                 disabled={disable}
                             />
-                        </Grid>
-                        <Grid item xs={3} sm={4} md={4} >
+                    
                             <TextField
                                 id="tasa_mes_vcdo:"
                                 label="Tasa Mes Vencido :"
@@ -107,46 +117,56 @@ export default function Credito(props) {
                                 disabled={disable}
                             />
 
-                        </Grid>
-                        <Grid item xs={3} sm={4} md={4} >
+                  
+              
                             <TextField
                                 id="tasa_efectivo_anual"
                                 label="Tasa Efectivo Anual :"
                                 placeholder="Tasa efectiva anual"
                                 name='tasa_efectivo_anual'
-                                value={(tasa_mes_vcdo * 12).toFixed(2)}
+                                value={(tasa_mes_vcdo * 12).toFixed(1) + "%"}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
                             />
-                        </Grid>
+              
 
                     </Grid>
 
                     <Grid container spacing={2} style={{ marginTop: 1 }}>
 
-                        <Grid item xs={12}>
                             <TextField
                                 id="cuota_fija"
                                 label="Cuota Fija :"
                                 placeholder="Cuiota Fija"
                                 name='cuota_fija'
-                                value={PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(0)}
+                                value={parseFloat(PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(0)).toLocaleString('es-CO')}
+                                style={{fontWeight:'bold' }}
                                 onChange={e => handleChange(e)}
                                 variant="filled"
                                 disabled={disable}
                             />
-                        </Grid>
+                 
                     </Grid>
+                        <Grid container spacing={2} style={{ marginTop: 1 }}>
 
-                    <Divider variant="middle" className={styles.main} />
-                    <TableCredito vp={valor_credito} cp={cuotas_pagar} ir={tasa_fi / 100} cf={PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(1)} />
-                </Box>) : (<Box>
+                        <TableCredito vp={valor_credito} cp={cuotas_pagar} ir={tasa_fi / 100} cf={PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(1)} />
+
+
+                        </Grid>
+                    
+                  
+                </Box>
+                </Container>
+              ) : (
+                    <Box>
                     <Divider variant="middle" className={styles.main} />
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
                         No tiene Creditos
                     </Grid>
-                </Box>)
+                    </Box>
+               )
+              
 
             }
 

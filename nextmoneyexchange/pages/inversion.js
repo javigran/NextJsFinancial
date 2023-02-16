@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Link from 'next/link';
 import { fontFamily } from '@mui/system';
 import TableInversion from '../components/tableInversion';
+import { Container } from '@mui/material';
 /**
  * Inversion Page 
  * @param {props  from server side } props 
@@ -26,8 +27,10 @@ console.log(inversion);
  return (
     
 
-      <div className={styles.container}>
-        {inversion ? (<Box>
+   <Container>
+        {inversion ? (
+            
+            <Box>
                 <Divider variant="middle" className={styles.main} />
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{margin:2}}>
                     <Grid item xs={3} sm={4} md={12} >
@@ -117,7 +120,7 @@ console.log(inversion);
         <Link href="/protected">
             <button>Back to home page</button>
         </Link>
-      </div> 
+        </Container>
     
 
 );
