@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
 
+
 export default function Protected() {
   const {data:session} = useSession();
     console.log("Data Use Session " + session);
@@ -60,7 +61,8 @@ export default function Protected() {
       </footer> 
    
       <Link href="/">
-        <button>Back to home page</button>
+      <Button variant="contained">Regresar al Inicio </Button>
+
       </Link>
     </div>
   );

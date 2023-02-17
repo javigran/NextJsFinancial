@@ -12,6 +12,7 @@ import TableInversion from '../components/tableInversion';
 import { Container } from '@mui/material';
 import { useState } from 'react';
 import { signOut, useSession } from 'next-auth/react'
+import Button from '@mui/material/Button';
 /**
  * Inversion Page 
  * @param {props  from server side } props 
@@ -44,7 +45,7 @@ console.log(inversion);
               
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{margin:2}}>
                     <Grid item xs={3} sm={4} md={12} >
-                        <TextField
+                        {/* <TextField
                             id="username"
                             label="Socio Accionista :"
                             placeholder="Soccio Accionista"
@@ -53,8 +54,8 @@ console.log(inversion);
                             onChange={e => handleChange(e)}
                           
                             disabled={true}
-                        />
-                                 <TextField
+                        /> */}
+                            <TextField
                             id="nombre"
                             label="Socio Accionista :"
                             placeholder="Soccio Accionista"
@@ -94,10 +95,22 @@ console.log(inversion);
                
                 </Box>
                 </Container>) : (<Box>
-                <Divider variant="middle" className={styles.main} />
+           
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{marginTop:1}}>
-                   No tiene Inversiones
+                
+                <Container style={{marginTop:"20%"}}>
+                <h1 className={styles.title}>
+                     ¡TE CUENTO, {session.user.name} 
+                     </h1>
+                     <h2 className={styles.grid}>
+                      No tienes Inversiones. 
+                     </h2>
+                </Container>
                 </Grid>
+
+               
+                
+            
                 </Box>)}
                 
        
@@ -105,9 +118,7 @@ console.log(inversion);
                 
         <footer className={styles.footer}>
             <a
-                href="https://eco2.com.co"
-                target="_blank"
-                rel="noopener noreferrer"
+              
             >
                 Powered by{'   '} ECO²
                 {/* <span className={styles.logo}>
@@ -117,7 +128,7 @@ console.log(inversion);
         </footer>
 
         <Link href="/protected">
-            <button>Back to home page</button>
+        <Button variant="contained">Regresar al Inicio </Button>
         </Link>
       
     </div>

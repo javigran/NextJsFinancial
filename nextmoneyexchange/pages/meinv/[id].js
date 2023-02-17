@@ -66,7 +66,7 @@ function MeInvest({ credito }) {
      
     </Box>
     </Container>
-    {/* <Divider variant="middle" className={styles.main} /> */}
+       {/* <Divider variant="middle" className={styles.main} /> */}
         <footer className={styles.footer}>
             <a
                 href="https://eco2.com.co"

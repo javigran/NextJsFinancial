@@ -17,6 +17,7 @@ import PMT from '../utils/pmt';
 import { textAlign } from '@mui/system';
 import { Container } from '@mui/material';
 
+
 export default function Credito(props) {
 
     const { data: session } = useSession();
@@ -160,9 +161,12 @@ export default function Credito(props) {
                 </Container>
               ) : (
                     <Box>
-                    <Divider variant="middle" className={styles.main} />
+                    
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
-                        No tiene Creditos
+                    <h1 className={styles.title}>
+                     ¡TE CUENTO, {session.user.name} 
+                     </h1>
+
                     </Grid>
                     </Box>
                )
@@ -170,14 +174,10 @@ export default function Credito(props) {
 
             }
 
-            <Divider variant="middle" className={styles.main} />
+            
 
             <footer className={styles.footer}>
-                <a
-                    href="https://eco2.com.co"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
+                <a>
                     Powered by{'   '} ECO²
                     {/* <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
@@ -186,7 +186,7 @@ export default function Credito(props) {
             </footer>
 
             <Link href="/protected">
-                <button>Regresar al Inicio</button>
+            <Button variant="contained">Regresar al Inicio </Button>
             </Link>
         </div>
     );

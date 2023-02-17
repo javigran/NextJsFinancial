@@ -58,9 +58,9 @@ export default function Home() {
       </div>
        <footer className={styles.footer}>
         <a
-          href="https://eco2.com.co"
-          target="_blank"
-          rel="noopener noreferrer"
+          // href="https://eco2.com.co"
+          // target="_blank"
+          // rel="noopener noreferrer"
         >
           Powered by{'   '} ECO²
           {/* <span className={styles.logo}>
