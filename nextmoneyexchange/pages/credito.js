@@ -163,10 +163,14 @@ export default function Credito(props) {
                     <Box>
                     
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
+                    <Container style={{marginTop:"20%"}}>
                     <h1 className={styles.title}>
                      ¡TE CUENTO, {session.user.name} 
                      </h1>
-
+                     <h2 className={styles.grid}>
+                      No tienes Inversiones. 
+                     </h2>
+                    </Container>
                     </Grid>
                     </Box>
                )

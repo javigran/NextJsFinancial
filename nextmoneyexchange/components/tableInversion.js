@@ -8,8 +8,13 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Link from 'next/link';
-
+import Grid from '@mui/material/Grid';
+import { Card, CardActions, CardContent, Container, Divider, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+  
 import PMT from '../utils/pmt';
+
 
 const columns = [
     // { id: 'id_credito', label: 'Id Credito' },
@@ -66,6 +71,8 @@ const columns = [
       },
 
   ];
+ 
+       
   
 export default function TableInversion({data}) {
   //  console.log("iNVERISONES EN TABLA" + JSON.stringify(data));
@@ -127,72 +134,98 @@ export default function TableInversion({data}) {
       const total_valor_invs = subtotal(rows,1).toLocaleString('es-CO'); 
       const total_cuota_mes = subtotal(rows,2).toLocaleString('es-CO');
       const total_proyection = subtotal(rows,3).toLocaleString('es-CO');
+      const valor_estimado =  (subtotal(rows,3) - subtotal(rows,1)).toLocaleString('es-CO');
         return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-           
-                <TableCell 
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-               
-              ))}
-            </TableRow>
-            
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <Link key={row.code}
-                 href={{
-              pathname: '/meinv/[id]',
-              query: { id: row['id_credito'] },
-            }}>
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'number'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                  </Link>
-                );
-              })}
-          
-          <TableRow key={'total_row'}>
+          <Container>
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+              <TableContainer sx={{ maxHeight: 440 }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <TableRow>
+                      {columns.map((column) => (
 
-            <TableCell align="right" style={{ fontWeight:'bold' }}>Total: {total_valor_invs}</TableCell>
-            <TableCell align="right" style={{ fontWeight:'bold' }}>{total_cuota_mes}</TableCell>
-            <TableCell align="right" style={{ fontWeight:'bold' }}></TableCell>
-            <TableCell align="right" style={{ fontWeight:'bold' }}>{total_proyection}</TableCell>
-          </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </Paper>
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ minWidth: column.minWidth }}
+                        >
+                          {column.label}
+                        </TableCell>
+
+                      ))}
+                    </TableRow>
+
+                  </TableHead>
+                  <TableBody>
+                    {rows
+                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      .map((row) => {
+                        return (
+                          <Link key={row.code}
+                            href={{
+                              pathname: '/meinv/[id]',
+                              query: { id: row['id_credito'] },
+                            }}>
+                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                              {columns.map((column) => {
+                                const value = row[column.id];
+                                return (
+                                  <TableCell key={column.id} align={column.align}>
+                                    {column.format && typeof value === 'number'
+                                      ? column.format(value)
+                                      : value}
+                                  </TableCell>
+                                );
+                              })}
+                            </TableRow>
+                          </Link>
+                        );
+                      })}
+
+                    <TableRow key={'total_row'}>
+
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}>Total: {total_valor_invs}</TableCell>
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_cuota_mes}</TableCell>
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}></TableCell>
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_proyection}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Paper>
+  
+            <Grid container spacing={2} style={{ marginTop: '5%' }}>
+            <Grid item xs={8}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+
+                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
+                      Capitalización Estimada : 
+                  </Typography>
+                  <Divider>&</Divider>
+                   <Typography variant="h5" component="div">
+                     { valor_estimado }
+                  </Typography>
+                 
+                 
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">Learn More</Button>
+                </CardActions> */ }
+              </Card>
+              </Grid>
+            </Grid>
+          </Container>
+    
   );
 
 
