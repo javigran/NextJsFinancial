@@ -51,8 +51,8 @@ export default function Inversion(props) {
                         noValidate
                         autoComplete="off">
 
-                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ margin: 2 }}>
-                            <Grid item xs={3} sm={4} md={12} >
+                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ mar: 2 }}>
+                            <Grid item >
                                 {/* <TextField
                             id="username"
                             label="Socio Accionista :"
@@ -84,22 +84,17 @@ export default function Inversion(props) {
                                     disabled={true}
                                 />
                             </Grid>
-                            <Grid item xs={3} sm={4} md={4}  >
-
-
-                            </Grid>
+                       
 
 
                         </Grid>
                         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
 
-                            <h2>Lista de Inversiones </h2>
+                            <h2 style={{color:'#1976d2'}}>Lista de Inversiones </h2>
                             <Grid container spacing={2} style={{ marginTop: 1 }}>
                                 <TableInversion data={inversion} />
                             </Grid>
-                            <Divider>
-
-                            </Divider>
+           
                            
                            
                            

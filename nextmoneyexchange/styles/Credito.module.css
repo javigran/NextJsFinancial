@@ -1,8 +1,10 @@
 .container {
   height: 100%;
   display: flex;
+padding: auto;
   flex-direction: column;
  justify-content: center;
+ text-align: center;
   align-items: center;
 }
 

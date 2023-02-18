@@ -203,8 +203,8 @@ export default function TableInversion({data}) {
               />
             </Paper>
   
-            <Grid container spacing={2} style={{ marginTop: '5%' }}>
-            <Grid item xs={8}>
+            <Grid container spacing={2} style={{ marginTop: '2%' }}>
+            <Grid item xs={6}>
               <Card sx={{ width: '100%' }}>
                 <CardContent>
 
@@ -213,7 +213,7 @@ export default function TableInversion({data}) {
                   </Typography>
                   <Divider>&</Divider>
                    <Typography variant="h5" component="div">
-                     { valor_estimado }
+                     { valor_estimado } COP
                   </Typography>
                  
                  
@@ -222,6 +222,27 @@ export default function TableInversion({data}) {
                   <Button size="small">Learn More</Button>
                 </CardActions> */ }
               </Card>
+              
+              </Grid>
+              <Grid item xs={6}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+
+                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
+                      Capitalización Estimada : 
+                  </Typography>
+                  <Divider>&</Divider>
+                   <Typography variant="h5" component="div">
+                     { valor_estimado } COP
+                  </Typography>
+                 
+                 
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">Learn More</Button>
+                </CardActions> */ }
+              </Card>
+              
               </Grid>
             </Grid>
           </Container>
