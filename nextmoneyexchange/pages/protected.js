@@ -48,16 +48,16 @@ export default function Protected() {
       </main>
 
        <footer className={styles.footer}>
-        <a
+        {/* <a
           href="https://eco2.com.co"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{'   '} ECO²
+          Powered by{'   '} ECO² */}
           {/* <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span> */}
-        </a>
+        {/* </a> */}
       </footer> 
    
       <Link href="/">

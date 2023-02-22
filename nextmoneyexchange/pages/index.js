@@ -52,9 +52,9 @@ export default function Home() {
       <div id="user_register_section">
 
 
-      {
+      {/* {
         !session && <RegisterComponent/>
-      }
+      } */}
       </div>
        <footer className={styles.footer}>
         <a
@@ -62,7 +62,7 @@ export default function Home() {
           // target="_blank"
           // rel="noopener noreferrer"
         >
-          Powered by{'   '} ECO²
+          {/* Powered by{'   '} ECO² */}
           {/* <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span> */}

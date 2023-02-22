@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { MenuBook } from '@mui/icons-material';
+import { HomeMiniOutlined, HomeOutlined, ListAlt, ListRounded, MenuBook, MenuOutlined, PanTool } from '@mui/icons-material';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
@@ -26,7 +26,9 @@ import { StepIcon } from '@mui/material';
 
 
 
-
+import logo from "../public/logo_fi.png";
+import Image from 'next/image';
+import { ListAltSharp } from '@material-ui/icons';
 //import ModalDialog from './ModalDialog';
 
 
@@ -83,8 +85,8 @@ const Navbar = () => {
           <ListItem key={'home'} disablePadding>
           <Link href="/protected">
             <ListItemButton>
-              <ListItemIcon>
-                 <InboxIcon /> 
+            <ListItemIcon>       
+                 <HomeOutlined/>
               </ListItemIcon>
               <ListItemText primary={'Home'} />
             </ListItemButton>
@@ -97,7 +99,8 @@ const Navbar = () => {
           <Link href="/credito">
             <ListItemButton>
               <ListItemIcon>
-                 <InboxIcon /> 
+           
+                 <ListAlt/>
               </ListItemIcon>
               <ListItemText primary={'Mis Creditos'} />
             </ListItemButton>
@@ -107,20 +110,20 @@ const Navbar = () => {
           <Link href="/inversion">
             <ListItemButton>
               <ListItemIcon>
-                 <InboxIcon /> 
+                <ListRounded/>
               </ListItemIcon>
               <ListItemText primary={'Mis Inversiones'} />
             </ListItemButton>
             </Link>
           </ListItem>
-      </List>
-      <Divider />
+
+          <Divider />
       <List>
-        {['Invertir', 'Solicitar', 'Soporte'].map((text, index) => (
+        {['Invertir', 'Solicitar'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ?  <InboxIcon />  : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -128,6 +131,20 @@ const Navbar = () => {
           
         ))}
       </List>
+          <Divider />  
+          <ListItem key={'Soporte'} disablePadding>
+          <Link href="https://api.whatsapp.com/send?phone=+573163445984&text=FI%20Inteligencia%20Financiera">
+            <ListItemButton>
+              <ListItemIcon>
+              <PanTool/>
+                
+              </ListItemIcon>
+              <ListItemText primary={'Soporte'} />
+            </ListItemButton>
+            </Link>
+          </ListItem>
+      </List>
+
     </Box>
   );
 
@@ -150,9 +167,11 @@ const Navbar = () => {
           color="inherit"
           aria-label="menu"
          
-        >
-    
-          <MenuBook onClick={toggleDrawer('left', true)} />
+        > 
+        
+          <MenuOutlined onClick={toggleDrawer('left', true)} />
+         
+          
           <SwipeableDrawer
             anchor={'left'}
             open={state['left']}
@@ -168,15 +187,16 @@ const Navbar = () => {
           aria-label="menu"
           
         >
-          <MenuBook/>
+          <MenuOutlined/>
          
         </IconButton>)}
 
-        <Typography variant="h6" component="div"  style={{ flexGrow: 1 }} >
-        FI Inteligencia Financiera 
+       <Typography variant="h6" component="div"  style={{ flexGrow: 1 }} >
+       <Image src={logo} alt="Fi Tech!" width="300" height="80" />
         </Typography>
+        
        
-
+  
         {session ? (
          <div style={{ display: 'inherit'}}> 
      

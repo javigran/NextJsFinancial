@@ -51,7 +51,7 @@ export default function Inversion(props) {
                         noValidate
                         autoComplete="off">
 
-                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ mar: 2 }}>
+                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1}}>
                             <Grid item >
                                 {/* <TextField
                             id="username"
@@ -124,19 +124,20 @@ export default function Inversion(props) {
 
 
             <footer className={styles.footer}>
+            <Link href="/protected">
+                <Button variant="contained">Regresar al Inicio </Button>
+            </Link>
                 <a
 
                 >
-                    Powered by{'   '} ECO²
+                    {/* Powered by{'   '} ECO² */}
                     {/* <span className={styles.logo}>
         <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
       </span> */}
                 </a>
             </footer>
 
-            <Link href="/protected">
-                <Button variant="contained">Regresar al Inicio </Button>
-            </Link>
+       
 
         </div>
 

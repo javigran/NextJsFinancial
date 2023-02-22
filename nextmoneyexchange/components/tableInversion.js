@@ -208,10 +208,10 @@ export default function TableInversion({data}) {
               <Card sx={{ width: '100%' }}>
                 <CardContent>
 
-                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
-                      Capitalización Estimada : 
+                  <Typography variant="h5" aria-label='Capitalización Estimada'  component="div" style={{color:'#1976d2'}}>
+                      Capital Estimado
                   </Typography>
-                  <Divider>&</Divider>
+                  <Divider></Divider>
                    <Typography variant="h5" component="div">
                      { valor_estimado } COP
                   </Typography>
@@ -229,11 +229,51 @@ export default function TableInversion({data}) {
                 <CardContent>
 
                   <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
-                      Capitalización Estimada : 
+                      Cuota Fija Mensual
                   </Typography>
-                  <Divider>&</Divider>
+                  <Divider></Divider>
                    <Typography variant="h5" component="div">
-                     { valor_estimado } COP
+                     { total_cuota_mes } COP
+                  </Typography>
+                 
+                 
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">Learn More</Button>
+                </CardActions> */ }
+              </Card>
+              
+              </Grid>
+              <Grid item xs={6}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+
+                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
+                      Numero de Creditos 
+                  </Typography>
+                  <Divider></Divider>
+                   <Typography variant="h5" component="div">
+                     { rows.length } 
+                  </Typography>
+                 
+                 
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">Learn More</Button>
+                </CardActions> */ }
+              </Card>
+              
+              </Grid>
+              <Grid item xs={6}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+
+                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
+                      Renta Mensual
+                  </Typography>
+                  <Divider></Divider>
+                   <Typography variant="h5" component="div">
+                     { 'XXXX' } COP
                   </Typography>
                  
                  
