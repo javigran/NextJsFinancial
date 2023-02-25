@@ -45,9 +45,11 @@ export default function Protected() {
             <h2>Solicitar &rarr;</h2>  </a>
         </div>
         <p>Gana buenos rendimientos prestándole a personas con buen historial crediticio y capacidad de pago comprobada.</p>
-      </main>
+        <footer className={styles.footer}>
+       <Link href="/">
+      <Button variant="contained">Regresar al Inicio </Button>
 
-       <footer className={styles.footer}>
+      </Link>
         {/* <a
           href="https://eco2.com.co"
           target="_blank"
@@ -60,10 +62,10 @@ export default function Protected() {
         {/* </a> */}
       </footer> 
    
-      <Link href="/">
-      <Button variant="contained">Regresar al Inicio </Button>
+      </main>
 
-      </Link>
+      
+      
     </div>
   );
 }

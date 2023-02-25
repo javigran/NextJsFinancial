@@ -10,6 +10,7 @@ import Link from 'next/link';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { Container } from '@mui/system';
+import { Button } from '@material-ui/core';
 
 
 function MeInvest({ credito }) {
@@ -18,42 +19,89 @@ function MeInvest({ credito }) {
  console.log("Credito is " + credito);
  //const username = credito.data.attributes.
  const disable = true;
+ const id_credito = credito.data.id;
  const username = credito.data.attributes.user.data.attributes.username
+ const nombre = credito.data.attributes.user.data.attributes.nombre
+ const primer_apellido = credito.data.attributes.user.data.attributes.primer_apellido
+ const tipo_garantia = credito.data.attributes.tipo_garantia
+ const valor_prestamo = credito.data.attributes.valor_prestamo
+ const fecha_desembolso = credito.data.attributes.fecha_desembolso
+ const ciudad_credito = credito.data.attributes.ciudad_credito
   return (
     <div className={styles.container}>
     <Container>
     <Box>
        {/* <Divider variant="middle" className={styles.main} />  */}
        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
-                        <Grid item xs={3} sm={4} md={4} >
+                        <Grid item xs={6} sm={4} md={4}  >
                             <TextField
-                                id="username"
-                                label="Nombre del Cliente :"
+                                id="id_credito"
+                                label="ID Credito :"
+                                placeholder="Tipo de Garantia"
+                                name='id_credito'
+                                value={id_credito}
+                                onChange={e => handleChange(e)}
+                                disabled={disable}
+                            />
+
+                        </Grid>
+                        <Grid item xs={6} sm={4} md={4} >
+                            <TextField
+                                id="nombre"
+                                label="Nombre del Acreedor :"
                                 placeholder="Nombre del Cliente"
-                                name='username'
-                                value={username}
+                                name='nombre'
+                                value={nombre + " " + primer_apellido}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
                             />
                         </Grid>
-                        <Grid item xs={3} sm={4} md={4}  >
+                        <Grid item xs={6} sm={4} md={4}  >
                             <TextField
                                 id="tipo_garantia"
                                 label="Tipo de Garantia :"
                                 placeholder="Tipo de Garantia"
                                 name='tipo_garantia'
-                            
+                                value={tipo_garantia}
+                                onChange={e => handleChange(e)}
+                                disabled={disable}
                             />
 
                         </Grid>
-                        <Grid item xs={3} sm={4} md={4} >
+                        <Grid item xs={6} sm={4} md={4} >
                             <TextField
-                                id="username"
+                                id="valor_prestamo"
                                 label="Valor del Préstamo :"
                                 placeholder="Valor del Préstamo"
-                                name='username'
-                                value={'xx'}
+                                name='valor_prestamo'
+                                value={ parseFloat(valor_prestamo).toLocaleString("es-CO") + 'COP'}
+                                onChange={e => handleChange(e)}
+
+                                disabled={disable}
+                            />
+                        </Grid>
+
+                        <Grid item xs={6} sm={4} md={4} >
+                            <TextField
+                                id="fecha_desembolso"
+                                label="Fecha Desembolso :"
+                                placeholder="Fecha Desembolso"
+                                name='fecha_desembolso '
+                                value={ fecha_desembolso}
+                                onChange={e => handleChange(e)}
+
+                                disabled={disable}
+                            />
+                        </Grid>
+
+                        <Grid item xs={6} sm={4} md={4} >
+                            <TextField
+                                id="ciudad_credito"
+                                label="Ciudad Credito :"
+                                placeholder="Ciudad Credito"
+                                name='ciudad_credito '
+                                value={ ciudad_credito}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
@@ -61,28 +109,29 @@ function MeInvest({ credito }) {
                         </Grid>
 
                     </Grid>
-                    
+      <h2 style={{color:'#1976d2' , textAlign:'left'}}>Detalles del Credito </h2>             
       <TableCredito vp={credito.data.attributes.valor_prestamo} cp={credito.data.attributes.cuotas_pagar} ir={credito.data.attributes.tasa_mes_vcdo / 100} cf={PMT(credito.data.attributes.tasa_mes_vcdo / 100, credito.data.attributes.cuotas_pagar, credito.data.attributes.valor_prestamo).toFixed(1)} />
      
     </Box>
     </Container>
        {/* <Divider variant="middle" className={styles.main} /> */}
         <footer className={styles.footer}>
-            <a
+            {/* <a
                 href="https://eco2.com.co"
                 target="_blank"
                 rel="noopener noreferrer"
-            >
-                Powered by{'   '} ECO²
+            > */}
+                {/* Powered by{'   '} ECO² */}
                 {/* <span className={styles.logo}>
         <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
       </span> */}
-            </a>
+            {/* </a> */}
+            <Link href="/inversion">
+        <Button style={{backgroundColor:'#1976d2', color:'white'}} variant="contained">Regresar a Inversiones </Button>
+        </Link> 
         </footer>
 
-        <Link href="/inversion">
-            <button>Volver a Mis Inversiones</button>
-        </Link> 
+       
     </div>
   )
 }
@@ -105,7 +154,7 @@ export const getServerSideProps = async (ctx) => {
         },
       });
       credito = data;
-      console.log(credito);
+      console.log("Credito is : " + JSON.stringify(credito));
     } catch (e) {
       console.log(e);
     }

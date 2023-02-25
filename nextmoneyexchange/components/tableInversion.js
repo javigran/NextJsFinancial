@@ -79,11 +79,13 @@ export default function TableInversion({data}) {
   //  console.log("Inversion 0 " + JSON.stringify(data.inversions[0]));
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [numberRec, setnumberRec] = React.useState(0);
     // function createData(id_credito,createdAt,id_inversionista,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
 
-    function createData(id_credito,createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
+    function createData(id_row,id_credito,createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
         //const density = population / size;
-        return {id_credito, createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total};
+
+        return {id_row,id_credito, createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total};
     }
     
     function subtotal(items, param) {
@@ -114,12 +116,15 @@ export default function TableInversion({data}) {
     // }
     
     const rows = [];
+    
     data.forEach(inv => {
+        
         let date_created = new Date(inv.attributes.credito.data.attributes.createdAt);
        // console.log(date_created.toLocaleDateString());
+        let id_row =rows.length + 1;
         let cuota_fija = parseFloat(PMT(inv.attributes.credito.data.attributes.tasa_mes_vcdo/100,inv.attributes.credito.data.attributes.cuotas_pagar,inv.attributes.credito.data.attributes.valor_prestamo).toFixed(0));
        // rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(),inv.attributes.credito.data.attributes.id_inversionista, parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(1),inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
-       rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(), parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(0) + '%',inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
+       rows.push(createData(id_row,inv.attributes.credito.data.id,date_created.toLocaleDateString(), parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(0) + '%',inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
     
       });
     const handleChangePage = (event, newPage) => {
@@ -142,6 +147,12 @@ export default function TableInversion({data}) {
                 <Table stickyHeader aria-label="sticky table">
                   <TableHead>
                     <TableRow>
+                    <TableCell
+                          key={"recid"}
+                      
+                        >
+                        #
+                        </TableCell>
                       {columns.map((column) => (
 
                         <TableCell
@@ -160,6 +171,8 @@ export default function TableInversion({data}) {
                     {rows
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => {
+                        
+                        const id = numberRec;
                         return (
                           <Link key={row.code}
                             href={{
@@ -167,6 +180,16 @@ export default function TableInversion({data}) {
                               query: { id: row['id_credito'] },
                             }}>
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                     
+                            <TableCell
+                          key={"recid"}
+                          
+                         
+                        >
+                            {row['id_row']}
+                        </TableCell>
+                          
+
                               {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
@@ -183,8 +206,8 @@ export default function TableInversion({data}) {
                       })}
 
                     <TableRow key={'total_row'}>
-
-                      <TableCell align="right" style={{ fontWeight: 'bold' }}>Total: {total_valor_invs}</TableCell>
+                    <TableCell align="right" style={{ fontWeight: 'bold' }}>Total: </TableCell>
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_valor_invs}</TableCell>
                       <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_cuota_mes}</TableCell>
                       <TableCell align="right" style={{ fontWeight: 'bold' }}></TableCell>
                       <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_proyection}</TableCell>
@@ -209,7 +232,7 @@ export default function TableInversion({data}) {
                 <CardContent>
 
                   <Typography variant="h5" aria-label='Capitalización Estimada'  component="div" style={{color:'#1976d2'}}>
-                      Capital Estimado
+                      ROI Estimado
                   </Typography>
                   <Divider></Divider>
                    <Typography variant="h5" component="div">
@@ -229,7 +252,7 @@ export default function TableInversion({data}) {
                 <CardContent>
 
                   <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
-                      Cuota Fija Mensual
+                     Flujo de Caja Esperado
                   </Typography>
                   <Divider></Divider>
                    <Typography variant="h5" component="div">
@@ -269,7 +292,7 @@ export default function TableInversion({data}) {
                 <CardContent>
 
                   <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
-                      Renta Mensual
+                      ROI
                   </Typography>
                   <Divider></Divider>
                    <Typography variant="h5" component="div">

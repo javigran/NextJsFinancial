@@ -68,7 +68,7 @@ export default function Inversion(props) {
                                     label="Socio Accionista :"
                                     placeholder="Soccio Accionista"
                                     name='nombre'
-                                    value={user.attributes.nombre + user.attributes.primer_apellido}
+                                    value={user.attributes.nombre + ' ' + user.attributes.primer_apellido}
                                     onChange={e => handleChange(e)}
 
                                     disabled={true}

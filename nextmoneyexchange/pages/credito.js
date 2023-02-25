@@ -168,7 +168,7 @@ export default function Credito(props) {
                      ¡TE CUENTO, {session.user.name} 
                      </h1>
                      <h2 className={styles.grid}>
-                      No tienes Inversiones. 
+                      No tienes Creditos. 
                      </h2>
                     </Container>
                     </Grid>
@@ -182,7 +182,7 @@ export default function Credito(props) {
 
             <footer className={styles.footer}>
                 <a>
-                    Powered by{'   '} ECO²
+                    {/* Powered by{'   '} ECO² */}
                     {/* <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span> */}
