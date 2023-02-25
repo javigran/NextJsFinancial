@@ -158,6 +158,7 @@ const Navbar = () => {
   }, [session]);
 
   return (
+    
     <Box sx={{ flexGrow: 1 }}>
     <AppBar position="sticky" style={{top:'0px', zIndex: 1}}>
       <Toolbar>
@@ -187,7 +188,7 @@ const Navbar = () => {
           aria-label="menu"
           
         >
-          <MenuOutlined/>
+          {/* <MenuOutlined/> */}
          
         </IconButton>)}
 

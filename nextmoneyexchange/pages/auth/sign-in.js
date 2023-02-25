@@ -2,6 +2,10 @@ import Head from 'next/head';
 import styles from '../../styles/SignIn.module.css';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { Button, Grid } from '@mui/material';
+import logo from "../../public/login.png";
+import Image from 'next/image';
+import { Container } from '@mui/material';
 
 export default function SignIn() {
   const router = useRouter();
@@ -20,12 +24,21 @@ export default function SignIn() {
     alert('Credential is not valid');
   };
 
+
   return (
+    <Container>
+
+    
     <div className={styles.container}>
       <Head>
-        <title>Strapi - Next - NextAuth</title>
+        <title>FI</title>
       </Head>
-      <h1>Sign In</h1>
+      <Grid container spacing={2} style={{ marginTop: '2%' }}>
+      <Grid item xs={12} sm={12} md={6} lg={6} >
+      <Image src={logo}   alt="Fi Tech!" />
+      </Grid>
+      <Grid item xs={12} sm={12} md={6} lg={6} spacing={0}>
+      <h1 style={{color:'#1976d2'}}>Inicio de Sesion</h1>
       <form className={styles.form} onSubmit={onSubmit}>
         <label htmlFor="email">Email</label>
         <input id="email" name="email" type="email" className={styles.input} />
@@ -35,7 +48,7 @@ export default function SignIn() {
           }}
           htmlFor="password"
         >
-          Password
+          Contraseña
         </label>
         <input
           id="password"
@@ -43,15 +56,24 @@ export default function SignIn() {
           type="password"
           className={styles.input}
         />
-        <button
+        <Button
           className={styles.button}
           style={{
             marginTop: 15,
           }}
+          type="submit"
+          variant="contained"
         >
-          Sign In
-        </button>
+          Login
+          </Button>
       </form>
+      </Grid>
+    
+      </Grid>
+      
+       
+    
     </div>
+    </Container>
   );
 }
