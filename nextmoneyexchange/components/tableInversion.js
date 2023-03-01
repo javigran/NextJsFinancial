@@ -14,6 +14,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
   
 import PMT from '../utils/pmt';
+import MyChart from './myChart';
+import MyBarChart from './myBarChart';
+
+
 
 
 const columns = [
@@ -116,16 +120,26 @@ export default function TableInversion({data}) {
     // }
     
     const rows = [];
+    const datachart = [];
+    const labels = [];
+    const label_line = [];
     
+const datalinechart = [];
     data.forEach(inv => {
         
         let date_created = new Date(inv.attributes.credito.data.attributes.createdAt);
        // console.log(date_created.toLocaleDateString());
         let id_row =rows.length + 1;
         let cuota_fija = parseFloat(PMT(inv.attributes.credito.data.attributes.tasa_mes_vcdo/100,inv.attributes.credito.data.attributes.cuotas_pagar,inv.attributes.credito.data.attributes.valor_prestamo).toFixed(0));
-       // rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(),inv.attributes.credito.data.attributes.id_inversionista, parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(1),inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
+        
+        // rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(),inv.attributes.credito.data.attributes.id_inversionista, parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(1),inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
        rows.push(createData(id_row,inv.attributes.credito.data.id,date_created.toLocaleDateString(), parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(0) + '%',inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
-    
+       
+       datachart.push(parseFloat(inv.attributes.valor_inversion));
+       datalinechart.push(cuota_fija);
+       label_line.push(inv.attributes.credito.data.id);
+       labels.push(parseFloat(inv.attributes.valor_inversion).toLocaleString("es-CO") + "");
+        
       });
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -136,6 +150,7 @@ export default function TableInversion({data}) {
         setPage(0);
       };
 
+     
       const total_valor_invs = subtotal(rows,1).toLocaleString('es-CO'); 
       const total_cuota_mes = subtotal(rows,2).toLocaleString('es-CO');
       const total_proyection = subtotal(rows,3).toLocaleString('es-CO');
@@ -180,7 +195,7 @@ export default function TableInversion({data}) {
                               query: { id: row['id_credito'] },
                             }}>
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                     
+                          
                             <TableCell
                           key={"recid"}
                           
@@ -238,7 +253,7 @@ export default function TableInversion({data}) {
                    <Typography variant="h5" component="div">
                      { valor_estimado } COP
                   </Typography>
-                 
+                
                  
                 </CardContent>
                 {/* <CardActions>
@@ -247,46 +262,7 @@ export default function TableInversion({data}) {
               </Card>
               
               </Grid>
-              <Grid item xs={6}>
-              <Card sx={{ width: '100%' }}>
-                <CardContent>
 
-                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
-                     Flujo de Caja Esperado
-                  </Typography>
-                  <Divider></Divider>
-                   <Typography variant="h5" component="div">
-                     { total_cuota_mes } COP
-                  </Typography>
-                 
-                 
-                </CardContent>
-                {/* <CardActions>
-                  <Button size="small">Learn More</Button>
-                </CardActions> */ }
-              </Card>
-              
-              </Grid>
-              <Grid item xs={6}>
-              <Card sx={{ width: '100%' }}>
-                <CardContent>
-
-                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
-                      Numero de Creditos 
-                  </Typography>
-                  <Divider></Divider>
-                   <Typography variant="h5" component="div">
-                     { rows.length } 
-                  </Typography>
-                 
-                 
-                </CardContent>
-                {/* <CardActions>
-                  <Button size="small">Learn More</Button>
-                </CardActions> */ }
-              </Card>
-              
-              </Grid>
               <Grid item xs={6}>
               <Card sx={{ width: '100%' }}>
                 <CardContent>
@@ -307,6 +283,47 @@ export default function TableInversion({data}) {
               </Card>
               
               </Grid>
+              <Grid item xs={6}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+
+                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
+                     Flujo de Caja Esperado
+                  </Typography>
+                  <Divider></Divider>
+                   <Typography variant="h5" component="div">
+                     { total_cuota_mes } COP
+                  </Typography>
+                  <MyBarChart data={datalinechart} labels={label_line} />
+                 
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">Learn More</Button>
+                </CardActions> */ }
+              </Card>
+              
+              </Grid>
+              <Grid item xs={6}>
+              <Card sx={{ width: '100%' }}>
+                <CardContent>
+
+                  <Typography variant="h5" component="div" style={{color:'#1976d2'}}>
+                      Numero de Creditos 
+                  </Typography>
+                  <Divider></Divider>
+                   <Typography variant="h5" component="div">
+                     { rows.length } 
+                  </Typography>
+                  <MyChart data={datachart} labels={labels}  />
+                      
+                </CardContent>
+                {/* <CardActions>
+                  <Button size="small">Learn More</Button>
+                </CardActions> */ }
+              </Card>
+              
+              </Grid>
+            
             </Grid>
           </Container>
     

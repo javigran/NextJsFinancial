@@ -56,6 +56,12 @@ export default function SignIn() {
           type="password"
           className={styles.input}
         />
+          <a
+            href="https://www.fi-fintech.com/index.php/registrate-2/"
+            
+          >
+            <h4>¿Aún no estas registrado? &rarr;</h4>
+          </a>
         <Button
           className={styles.button}
           style={{
@@ -66,7 +72,11 @@ export default function SignIn() {
         >
           Login
           </Button>
+
+
       </form>
+
+    
       </Grid>
     
       </Grid>
