@@ -9,14 +9,13 @@ import axios from 'axios';
 
 
 
-export default function Protected() {
-  const {data:session} = useSession();
-    console.log("Data Use Session " + session);
+export default function Protected(props) {
+  const user = props.user;
   return (
     <div className={styles.container}>
      <main className={styles.main}>
      <h1 className={styles.title}>
-        ¡Hola, {session.user.name} 
+        ¡Hola, {user.nombre} 
         </h1>
       
         <h2 className={styles.grid}>
@@ -80,17 +79,17 @@ export const getServerSideProps = async (context) => {
   let user = null;
   // Check if session exists or not, if not, redirect
 
-  if (session?.jwt) {
+  if (session) {
     try {
       // console.log("Entre aqui " + strapiToken);
-      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id + '?populate=%2A', {
+      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.session.user.email + '?populate=%2A', {
         headers: {
           Authorization:
             `Bearer ${strapiToken}`,
         },
       });
       user = data;
-    console.log(user);
+    //console.log(user);
     } catch (e) {
       console.log(e);
     }

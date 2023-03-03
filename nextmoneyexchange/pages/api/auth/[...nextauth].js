@@ -1,8 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { signIn } from '../../../services/auth';
+
 import axios from 'axios';
-import { getToken } from "next-auth/jwt"
 const strapiUrl = process.env.STRAPI_URL;
 
 
@@ -51,10 +50,6 @@ export default NextAuth({
       },
     }),
   ],
-    // Define how to serialize/deserialize the user object
-    jwt: {
-      secret: process.env.JWT_SECRET,
-    },
 
   callbacks: {
     session: async (session, user) => {
