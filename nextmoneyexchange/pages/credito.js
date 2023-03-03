@@ -16,11 +16,13 @@ import TableCredito from '../components/tableCredito';
 import PMT from '../utils/pmt';
 import { textAlign } from '@mui/system';
 import { Container } from '@mui/material';
+import { red } from '@mui/material/colors';
 
 
 export default function Credito(props) {
 
-    const { data: session } = useSession();
+    const session = useSession();
+    //console.log("Otra vez" + JSON.stringify(session));
     const nombre = props.user ? props.user.attributes.nombre : "" ;
     const primer_apellido = props.user ? props.user.attributes.primer_apellido : ' ';
     const seg_apellido = props.user ? props.user.attributes.seg_apellido : ' ';
@@ -45,19 +47,22 @@ export default function Credito(props) {
 
 
         <div className={styles.container}>
+                 
        
             {credito.data[0] ?
 
                 (  
                  <Container>
+                 
                     <Box
           component="div"
           sx={{
-            '& .MuiTextField-root': { m: 1, width: '25ch', textAlign:'center', alignItems:'center' },
+            '& .MuiTextField-root': { m: 1, width: '25ch', textAlign:'center', alignItems:'center'  },
           }}
           noValidate
           autoComplete="off">
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
+                
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop:20 }}>
                        
                             <TextField
                                 id="username"
@@ -141,7 +146,7 @@ export default function Credito(props) {
                                 label="Cuota Fija :"
                                 placeholder="Cuiota Fija"
                                 name='cuota_fija'
-                                value={parseFloat(PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(0)).toLocaleString('es-CO')}
+                                value={parseFloat(PMT(tasa_fi / 100, cuotas_pagar, valor_credito).toFixed(0)).toLocaleString('es-CO')+  ' COP'}
                                 style={{fontWeight:'bold' }}
                                 onChange={e => handleChange(e)}
                                 variant="filled"
@@ -165,7 +170,7 @@ export default function Credito(props) {
                     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
                     <Container style={{marginTop:"20%"}}>
                     <h1 className={styles.title}>
-                     ¡TE CUENTO, {session.user.name} 
+                     ¡TE CUENTO,{nombre}
                      </h1>
                      <h2 className={styles.grid}>
                       No tienes Creditos. 
@@ -203,11 +208,13 @@ export const getServerSideProps = async (ctx) => {
     // console.log("Retorne session"+ JSON.stringify(session));
     let credito = null;
     let user = null;
+    //console.log("Server"+ JSON.stringify(session));
+   // console.log(session.session.user.email);
     // Check if session exists or not, if not, redirect
-    if (session?.jwt) {
+    if (session) {
         try {
             // console.log("Entre aqui " + strapiToken);
-            const { data } = await axios.get(`${strapiUrl}/api/creditos?filters[user][id][$eq]=` + session.id + `&populate[0]=user&populate[1]=soporte_garantia`, {
+            const { data } = await axios.get(`${strapiUrl}/api/creditos?filters[user][id][$eq]=` + session.session.user.email + `&populate[0]=user&populate[1]=soporte_garantia`, {
                 headers: {
                     Authorization:
                         `Bearer ${strapiToken}`,
@@ -216,7 +223,7 @@ export const getServerSideProps = async (ctx) => {
             credito = data;
             user = credito.data[0].attributes.user.data;
           //  console.log(credito);
-            //  console.log(user.data);
+              //console.log(user.data);
         } catch (e) {
             console.log(e);
         }
@@ -227,7 +234,8 @@ export const getServerSideProps = async (ctx) => {
     return {
         props: {
             credito,
-            user
+            user,
+            
         }
     }
 };

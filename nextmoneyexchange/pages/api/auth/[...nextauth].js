@@ -1,61 +1,67 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { signIn } from '../../../services/auth';
+import axios from 'axios';
+import { getToken } from "next-auth/jwt"
+const strapiUrl = process.env.STRAPI_URL;
+
 
 export default NextAuth({
   // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
-      name: 'Sign in with Email',
+      name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'text' },
+        email: { label: 'Email', type: 'email', placeholder: 'user@example.com' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
-        /**
-         * This function is used to define if the user is authenticated or not.
-         * If authenticated, the function should return an object contains the user data.
-         * If not, the function should return `null`.
-         */
-        if (credentials == null) return null;
+      async authorize(credentials,req) {
+
+        const { email, password } = credentials;
+   
         /**
          * credentials is defined in the config above.
          * We can expect it contains two properties: `email` and `password`
          */
         try {
-          const { user, jwt } = await signIn({
-            email: credentials.email,
-            password: credentials.password,
+          const res = await axios.post(`${strapiUrl}/api/auth/local`, {
+            identifier: email,
+            password: password,
           });
-          var concat = {...user,jwt};
-         // console.log("concat"+ Kconcat);
-          return { ...user, jwt };
+          if (res && res.data) {
+            const token = { id:  res.data.user.id,  name: res.data.user.nombre, email:  res.data.user.id, };
+            
+            //console.log("Response"+ JSON.stringify(res.data.user));
+            //console.log("Token"+  JSON.stringify(token));
+            const resp1 = JSON.stringify(res.data.user);
+            const resp2 = JSON.stringify(token);
+            return {...res.data.user,...token};
+          }
+          else {
+            // If you return null or false then the credentials will be rejected
+            return null;
+          }
+          //var concat = {...user,jwt};
+        
+          
         } catch (error) {
-          console.log(error);
-          return null;
+          // console.log("Error"+ error);
+          throw new Error('Invalid email or password');
         }
       },
     }),
   ],
-  callbacks: {
-    session: async ({ session, token, user }) => {
-      session.id = token.id;
-      session.jwt = token.jwt;
-      
-     
-      return Promise.resolve(session);
+    // Define how to serialize/deserialize the user object
+    jwt: {
+      secret: process.env.JWT_SECRET,
     },
-    jwt: async ({ token, user }) => {
-      const isSignIn = user ? true : false;
-     // console.log(user);
-     //token.sub = user.Name;
-      if (isSignIn) {
-        token.id = user.id;
-        token.jwt = user.jwt;
-        token.name = user.nombre;
-        
-      }
-      return Promise.resolve(token);
+
+  callbacks: {
+    session: async (session, user) => {
+     // console.log(session);
+
+      return session;
+    
     },
   },
 });

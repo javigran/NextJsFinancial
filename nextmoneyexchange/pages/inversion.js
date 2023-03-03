@@ -18,9 +18,11 @@ import Button from '@mui/material/Button';
  * @param {props  from server side } props 
  */
 export default function Inversion(props) {
-    const { data: session } = useSession();
+   // const session = useSession();
     const inversion = props.inversion;
     const user = props.user;
+    const nombre = props.user ? props.user.attributes.nombre : "" ;
+    const primer_apellido = props.user ? props.user.attributes.primer_apellido : ' ';
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -107,7 +109,7 @@ export default function Inversion(props) {
 
                         <Container style={{ marginTop: "20%" }}>
                             <h1 className={styles.title}>
-                                ¡TE CUENTO, {session.user.name}
+                                ¡TE CUENTO, {nombre}
                             </h1>
                             <h2 className={styles.grid}>
                                 No tienes Inversiones.
@@ -148,23 +150,25 @@ export const getServerSideProps = async (ctx) => {
     const strapiToken = process.env.API_TOKEN;
     const strapiUrl = process.env.STRAPI_URL;
     const session = await getSession(ctx);
-    //  console.log("Retorne session"+ JSON.stringify(session));
+     //console.log("Retorne session"+ JSON.stringify(session));
     let inversion = null;
     let user = null;
 
     // Check if session exists or not, if not, redirect
-    if (session?.jwt) {
+    if (session) {
         try {
             // let urlws = `${strapiUrl}/api/inversions?filters[users_permissions_user][id][$eq]=` + session.id + `&populate[0]=users_permissions_user&populate[1]=credito`;
             //console.log("Entre aqui " + urlws);
 
-            const { data } = await axios.get(`${strapiUrl}/api/inversions?filters[users_permissions_user][id][$eq]=` + session.id + `&populate[0]=users_permissions_user&populate[1]=credito`, {
+            const { data } = await axios.get(`${strapiUrl}/api/inversions?filters[users_permissions_user][id][$eq]=` + session.session.user.email + `&populate[0]=users_permissions_user&populate[1]=credito`, {
+              
                 headers: {
                     Authorization:
                         `Bearer ${strapiToken}`,
                 },
             });
-            console.log(data);
+           // console.log("Info:" + session.id + "Name" + session.name);
+         //   console.log(data);
             //console.log(data.data);
 
             if (data.data.length > 0) {
@@ -191,7 +195,8 @@ export const getServerSideProps = async (ctx) => {
     return {
         props: {
             inversion,
-            user
+            user,
+            
         }
     }
 };

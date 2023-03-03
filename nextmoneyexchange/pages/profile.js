@@ -779,10 +779,10 @@ export const getServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
   let user = null;
   // console.log(session);
-  if (session?.jwt) {
+  if (session) {
     try {
       // console.log("Entre aqui " + strapiToken);
-      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.id + '?populate=%2A', {
+      const { data } = await axios.get(`${strapiUrl}/api/users/` + session.session.user.email + '?populate=%2A', {
         headers: {
           Authorization:
             `Bearer ${strapiToken}`,

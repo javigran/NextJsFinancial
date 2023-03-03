@@ -144,7 +144,7 @@ export const getServerSideProps = async (ctx) => {
   const { id } = ctx.query;
   let credito = null;
   // console.log(session);
-  if (session?.jwt) {
+  if (session) {
     try {
       // console.log("Entre aqui " + strapiToken);
       const { data } = await axios.get(`${strapiUrl}/api/creditos/` + id +`?populate[0]=user`, {

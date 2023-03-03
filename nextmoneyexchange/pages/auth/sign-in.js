@@ -6,22 +6,32 @@ import { Button, Grid } from '@mui/material';
 import logo from "../../public/login.png";
 import Image from 'next/image';
 import { Container } from '@mui/material';
+import { useState } from 'react';
 
 export default function SignIn() {
   const router = useRouter();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    setIsLoading(true)
+
     const result = await signIn('credentials', {
+      email,
+      password,
       redirect: false,
-      email: e.target.email.value,
-      password: e.target.password.value,
-    });
-    if(result.ok) {
-      router.replace('/protected');
-      return;
+    })
+
+    setIsLoading(false)
+    //console.log(result); 
+    router.replace('/protected'); 
+    if (result?.error) {
+      setError(result.error)
     }
-    alert('Credential is not valid');
+
   };
 
 
@@ -40,8 +50,13 @@ export default function SignIn() {
       <Grid item xs={12} sm={12} md={6} lg={6} spacing={0}>
       <h1 style={{color:'#1976d2'}}>Inicio de Sesion</h1>
       <form className={styles.form} onSubmit={onSubmit}>
+      {error && <p>{error}</p>}
         <label htmlFor="email">Email</label>
-        <input id="email" name="email" type="email" className={styles.input} />
+        <input 
+         type="email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)} 
+        className={styles.input} />
         <label
           style={{
             marginTop: 10,
@@ -51,9 +66,9 @@ export default function SignIn() {
           Contraseña
         </label>
         <input
-          id="password"
-          name="password"
           type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
           className={styles.input}
         />
           <a
@@ -68,9 +83,10 @@ export default function SignIn() {
             marginTop: 15,
           }}
           type="submit"
+          disabled={isLoading}
           variant="contained"
         >
-          Login
+          {isLoading ? 'Loading...' : 'Sign In'}
           </Button>
 
 

@@ -30,7 +30,7 @@ const MyBarChart  = ({ data,labels}) => {
         labels: labels,
         datasets: [
           {
-            label: 'Id Credito',
+            label: ['Id Credito','2'],
             data: data,
             backgroundColor: [
                 'rgb(255, 99, 132)',

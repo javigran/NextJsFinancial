@@ -148,21 +148,21 @@ const Navbar = () => {
     </Box>
   );
 
-  const { data: session } = useSession();
+  const session  = useSession();
+  //console.log('session', session.data.session.user.name);
+  //console.log('session.user', session);
+  // useEffect(() => {
+  //   if (session == null) return;
+    
 
-  useEffect(() => {
-    if (session == null) return;
-    console.log('session.jwt', session.jwt);
-    console.log('session.user', session.user);
-
-  }, [session]);
+  // }, [session]);
 
   return (
     
     <Box sx={{ flexGrow: 1 }}>
     <AppBar position="sticky" style={{top:'0px', zIndex: 1}}>
       <Toolbar>
-      {session ? (
+      {session && session.status == 'authenticated' ? (
         <IconButton
           edge="start"
           color="inherit"
@@ -198,7 +198,7 @@ const Navbar = () => {
         
        
   
-        {session ? (
+        {session && session.status == 'authenticated' ? (
          <div style={{ display: 'inherit'}}> 
      
 
@@ -206,7 +206,7 @@ const Navbar = () => {
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
     
-      <Avatar sx={{ bgcolor: 'white', color: '#3f51b5', fontWeight:'bold' }} >{session.user.name.charAt(0)}</Avatar>
+      <Avatar sx={{ bgcolor: 'white', color: '#3f51b5', fontWeight:'bold' }} > {session.data.session.user.name.charAt(0)}</Avatar>
       </IconButton>
             </Tooltip>
     <Menu

@@ -59,12 +59,27 @@ export default function TableCredito({vp,cp,ir,cf}) {
     //const density = population / size;
     return {no_cuota, capital, intereses, total_cuota,saldo_credito };
   }
+  function subtotal(items, param) {
+    if(param === 1 ){
+      return items.map(({ capital }) => capital).reduce((sum, i) => sum + i, 0);
 
-  const rows = [createData(0,'','','', parseFloat(vp))];
+    }
+    else if(param===2){
+      return items.map(({ intereses }) => intereses).reduce((sum, i) => sum + i, 0);
+
+    }
+    else if(param===3){
+      return items.map(({ saldo_credito }) => saldo_credito).reduce((sum, i) => sum + i, 0);
+
+    }
+
+  }
+
+  const rows = [];
   var intereses = vp * ir;
   var capital = cf - intereses; 
   var vp_updated = vp - capital;
-  
+  createData(0,0,0,0,parseFloat(vp))
   for (let index = 0; index < cp; index++) {
     rows.push(createData(index+1, parseInt(capital),parseInt(intereses),parseInt(cf), parseFloat(vp_updated.toFixed(0)))); 
     intereses = vp_updated * ir;
@@ -72,6 +87,8 @@ export default function TableCredito({vp,cp,ir,cf}) {
     vp_updated = vp_updated - capital;
 
   }
+console.log(rows.length);
+
 
  
    
@@ -91,7 +108,11 @@ export default function TableCredito({vp,cp,ir,cf}) {
     createData('Nigeria', 'NG', 200962417, 923768),
     createData('Brazil', 'BR', 210147125, 8515767),*/
   
-  
+    const total_capital = subtotal(rows,1).toLocaleString('es-CO');;
+ 
+    const total_intereses = subtotal(rows,2).toLocaleString('es-CO');
+    const total_cuota = subtotal(rows,3).toLocaleString('es-CO');
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -138,6 +159,14 @@ export default function TableCredito({vp,cp,ir,cf}) {
                   </TableRow>
                 );
               })}
+              <TableRow key={'total_row'}>
+                    <TableCell align="right" style={{ fontWeight: 'bold' }}>Total: </TableCell>
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_capital}</TableCell>
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_intereses}</TableCell>
+                     
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}>{total_cuota}</TableCell>
+                      <TableCell align="right" style={{ fontWeight: 'bold' }}></TableCell>
+                    </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
