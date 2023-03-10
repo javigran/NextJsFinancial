@@ -28,9 +28,10 @@ import {
 const MyBarChart  = ({ data,labels}) => {
     const chartData = {
         labels: labels,
+     
         datasets: [
           {
-            label: ['Id Credito','2'],
+            label: "ID Credito",
             data: data,
             backgroundColor: [
                 'rgb(255, 99, 132)',
@@ -40,8 +41,6 @@ const MyBarChart  = ({ data,labels}) => {
                 'rgb(153, 102, 255)',
                 'rgb(255, 159, 64)'
               ],
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
           }
         ]
       };

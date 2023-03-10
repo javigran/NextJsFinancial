@@ -70,7 +70,17 @@ export default function Inversion(props) {
                                     label="Socio Accionista :"
                                     placeholder="Soccio Accionista"
                                     name='nombre'
-                                    value={user.attributes.nombre + ' ' + user.attributes.primer_apellido}
+                                    value={user.attributes.nombre }
+                                    onChange={e => handleChange(e)}
+
+                                    disabled={true}
+                                />
+                                <TextField
+                                    id="apellidos"
+                                    label="Apellidos :"
+                                    placeholder="Apellidos"
+                                    name='nombre'
+                                    value={user.attributes.primer_apellido + ' ' + user.attributes.seg_apellido}
                                     onChange={e => handleChange(e)}
 
                                     disabled={true}

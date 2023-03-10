@@ -17,6 +17,7 @@ import PMT from '../utils/pmt';
 import { textAlign } from '@mui/system';
 import { Container } from '@mui/material';
 import { red } from '@mui/material/colors';
+import { useFormControl } from '@mui/material/FormControl';
 
 
 export default function Credito(props) {
@@ -29,6 +30,8 @@ export default function Credito(props) {
     const username = nombre + ' ' + primer_apellido + ' ' + seg_apellido;
     const credito = props.credito;
     const tipo_garantia = props.credito.data[0] ? credito.data[0].attributes.tipo_garantia : '';
+    const estado = props.credito.data[0] ? credito.data[0].attributes.estado : '';
+    const ciudad_credito = props.credito.data[0] ? credito.data[0].attributes.ciudad_credito : '';
     const valor_credito = props.credito.data[0] ? credito.data[0].attributes.valor_prestamo : '';
     const cuotas_pagar = props.credito.data[0] ? credito.data[0].attributes.cuotas_pagar: '';
     const tasa_mes_vcdo = props.credito.data[0]? credito.data[0].attributes.tasa_mes_vcdo : '';
@@ -69,38 +72,49 @@ export default function Credito(props) {
                                 label="Nombre del Cliente :"
                                 placeholder="Nombre del Cliente"
                                 name='username'
-                                value={username}
+                                value={nombre}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
                             />
                      
-                    
+                             <TextField
+                                id="apellido"
+                                label="Apellidos :"
+                                placeholder="Apellidos"
+                                name='apellido'
+                                value={primer_apellido + " " + seg_apellido }
+                                onChange={e => handleChange(e)}
+
+                                disabled={disable}
+                            />
+
                             <TextField
                                 id="tipo_garantia"
                                 label="Tipo de Garantia :"
                                 placeholder="Tipo de Garantia"
                                 name='tipo_garantia'
-                                
-                            />
+                                value={tipo_garantia}
+                                onChange={e => handleChange(e)}
 
-                     
+                                disabled={disable}
+                            />                                                                            
+                    </Grid>
+                    
+                    
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
+                       
                             <TextField
-                                id="username"
+                                id="valor_prestamo"
                                 label="Valor del Préstamo :"
                                 placeholder="Valor del Préstamo"
-                                name='username'
+                                name='valor_prestamo'
                                 value={ parseFloat(valor_credito).toLocaleString('es-CO')}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
                             />
-                            
-                   
-
-                    </Grid>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop: 1 }}>
-                       
+                          
                             <TextField
                                 id="cuotas_pagar"
                                 label="Cuotas a pagar :"
@@ -122,22 +136,53 @@ export default function Credito(props) {
 
                                 disabled={disable}
                             />
-
+                    </Grid>
                   
-              
+                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} style={{ marginTop:1 }}>
+                       
                             <TextField
                                 id="tasa_efectivo_anual"
                                 label="Tasa Efectivo Anual :"
                                 placeholder="Tasa efectiva anual"
                                 name='tasa_efectivo_anual'
-                                value={(tasa_mes_vcdo * 12).toFixed(1) + "%"}
+                                value={(tasa_mes_vcdo + tasa_fi * 12).toFixed(1) + "%"}
                                 onChange={e => handleChange(e)}
 
                                 disabled={disable}
                             />
+                
+                        <TextField
+                           id="cuotas"
+                           label="# Cuota pagas  :"
+                           placeholder="# Cuota pagas"
+                           name='cuotas'
+                           value={estado}
+                           onChange={e => handleChange(e)}
+                           variant="filled" 
+                           color="success" 
+                           focused 
+                          
+                       />
+
+                        <TextField 
+                        id="saldo_capital"
+                        label="Saldo capital  :" 
+                        placeholder="Saldo capital"
+                        name='saldo_capital'
+                        value={ciudad_credito}
+                        onChange={e => handleChange(e)}
+                        variant="filled" 
+                        color="success" 
+                        focused 
+                        
+                        />      
+                    </Grid>
+
+
+                        
               
 
-                    </Grid>
+                    
 
                     <Grid container spacing={2} style={{ marginTop: 1 }}>
 

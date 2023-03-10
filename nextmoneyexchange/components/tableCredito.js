@@ -69,7 +69,7 @@ export default function TableCredito({vp,cp,ir,cf}) {
 
     }
     else if(param===3){
-      return items.map(({ saldo_credito }) => saldo_credito).reduce((sum, i) => sum + i, 0);
+      return items.map(({ total_cuota }) => total_cuota).reduce((sum, i) => sum + i, 0);
 
     }
 
