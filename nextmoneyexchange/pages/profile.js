@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { signOut, useSession } from 'next-auth/react'
+//import { signOut, useSession } from 'next-auth/react'
 import { getSession } from 'next-auth/react';
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -201,7 +201,7 @@ const Profile = (props) => {
 
     const { name, value } = e.target;
     setisActividadEco(true);
-    console.log(e.target.value);
+    //console.log(e.target.value);
     // setActividatToUpdate({...ActividadToUpdate,[name]:value});4
     //setActividadEconomica({ ...ActividadEconomica,  });
     setUserData({ ...userData, ['actividad_economica']: { ...userData.actividad_economica, [name]: e.target.value } });
@@ -210,7 +210,7 @@ const Profile = (props) => {
   const handleData = (e) => {
     try {
       var dataok = e.toISOString().split('T')[0];
-      console.log(dataok);
+      //console.log(dataok);
       setUserData({ ...userData, fecha_expedition: dataok });
     }
     catch (ex) { console.log(ex); }
@@ -219,7 +219,7 @@ const Profile = (props) => {
   const handleDataActividadEco = (e) => {
     try {
       var dataok = e.toISOString().split('T')[0];
-      console.log(dataok);
+     // console.log(dataok);
       setisActividadEco(true);
       // setActividadToUpdate({...ActividadToUpdate, fecha_ingreso_emp: dataok});
       setUserData({ ...userData, ['actividad_economica']: { ...userData.actividad_economica, fecha_ingreso_emp: dataok } });
@@ -304,7 +304,7 @@ const Profile = (props) => {
         alert("Exception 2" + e);
       });
 
-    console.log(userData);
+    //console.log(userData);
   }
   const handleRowAdd = (newData, resolve) => {
     //validation
@@ -789,7 +789,7 @@ export const getServerSideProps = async (ctx) => {
         },
       });
       user = data;
-      console.log(user);
+      //console.log(user);
     } catch (e) {
       console.log(e);
     }

@@ -73,6 +73,14 @@ const columns = [
         align: 'right',
         format: (value) => value.toLocaleString('es-CO'),
       },
+      {
+        id: 'status_credito',
+        label: 'Estado del Credito',
+        minWidth: 170,
+        align: 'right',
+        format: (value) => value.toLocaleString('es-CO'),
+      },
+      
 
   ];
  
@@ -81,15 +89,16 @@ const columns = [
 export default function TableInversion({data}) {
   //  console.log("iNVERISONES EN TABLA" + JSON.stringify(data));
   //  console.log("Inversion 0 " + JSON.stringify(data.inversions[0]));
+  
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [numberRec, setnumberRec] = React.useState(0);
     // function createData(id_credito,createdAt,id_inversionista,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
 
-    function createData(id_row,id_credito,createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total) {
+    function createData(id_row,id_credito,createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total,status_credito) {
         //const density = population / size;
 
-        return {id_row,id_credito, createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total};
+        return {id_row,id_credito, createdAt,valor_inversion,cuota_mes,tasa,cuotas_pagar,proyection_total, status_credito};
     }
     
     function subtotal(items, param) {
@@ -123,23 +132,25 @@ export default function TableInversion({data}) {
     const datachart = [];
     const labels = [];
     const label_line = [];
-    
+   
 const datalinechart = [];
     data.forEach(inv => {
         
+      if(inv.attributes.credito.data.attributes.estado =='Activo' || inv.attributes.credito.data.attributes.estado =='Mora'){
         let date_created = new Date(inv.attributes.credito.data.attributes.createdAt);
        // console.log(date_created.toLocaleDateString());
         let id_row =rows.length + 1;
         let cuota_fija = parseFloat(PMT(inv.attributes.credito.data.attributes.tasa_mes_vcdo/100,inv.attributes.credito.data.attributes.cuotas_pagar,inv.attributes.credito.data.attributes.valor_prestamo).toFixed(0));
         
         // rows.push(createData(inv.attributes.credito.data.id,date_created.toLocaleDateString(),inv.attributes.credito.data.attributes.id_inversionista, parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(1),inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
-       rows.push(createData(id_row,inv.attributes.credito.data.id,date_created.toLocaleDateString(), parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(0) + '%',inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar))
-       
+       rows.push(createData(id_row,inv.attributes.credito.data.id,date_created.toLocaleDateString(), parseFloat(inv.attributes.valor_inversion),cuota_fija , parseFloat(inv.attributes.credito.data.attributes.tasa_mes_vcdo).toFixed(0) + '%',inv.attributes.credito.data.attributes.cuotas_pagar,  cuota_fija * inv.attributes.credito.data.attributes.cuotas_pagar, inv.attributes.credito.data.attributes.estado))
        datachart.push(parseFloat(inv.attributes.valor_inversion));
        datalinechart.push(cuota_fija);
        label_line.push(inv.attributes.credito.data.id);
        labels.push(parseFloat(inv.attributes.valor_inversion).toLocaleString("es-CO") + "");
         
+      }
+       
       });
     const handleChangePage = (event, newPage) => {
         setPage(newPage);

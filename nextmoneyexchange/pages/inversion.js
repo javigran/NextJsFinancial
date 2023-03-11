@@ -28,7 +28,7 @@ export default function Inversion(props) {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
     }
-    console.log(inversion);
+ //   console.log(inversion);
     const bull = (
         <Box
           component="span"
@@ -178,7 +178,7 @@ export const getServerSideProps = async (ctx) => {
                 },
             });
            // console.log("Info:" + session.id + "Name" + session.name);
-         //   console.log(data);
+         //  console.log(data);
             //console.log(data.data);
 
             if (data.data.length > 0) {

@@ -26,12 +26,16 @@ import {
  
 
 const MyBarChart  = ({ data,labels}) => {
+   //console.log(JSON.stringify(data));
+   const datasets= [];
+
+ 
     const chartData = {
         labels: labels,
-     
+        
         datasets: [
           {
-            label: "ID Credito",
+            label: '',
             data: data,
             backgroundColor: [
                 'rgb(255, 99, 132)',
@@ -41,7 +45,8 @@ const MyBarChart  = ({ data,labels}) => {
                 'rgb(153, 102, 255)',
                 'rgb(255, 159, 64)'
               ],
-          }
+          },
+          
         ]
       };
     
@@ -49,14 +54,22 @@ const MyBarChart  = ({ data,labels}) => {
         responsive: true,
         plugins: {
           legend: {
-            position: 'top'
+            display: false, // hide legend
           },
           title: {
             display: true,
-            text: ''
+            text: 'ID Credito'
           }
         },
         scales: {
+          xAxes: [
+            {
+              ticks: {
+                display: false,
+              },
+            },
+          ],
+          
           y: {
             beginAtZero: true
           }
