@@ -41,6 +41,7 @@ const MyChart = ({ data,labels,height, width}) => {
           }
         ]
       };
+      // provando jh
     
       const chartOptions = {
         responsive: true,
